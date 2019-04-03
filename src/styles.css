@@ -72,8 +72,6 @@ article{
 	right: 0px;
 	width:30px;
 	height:30px;
-	border: 1px solid #000;
-	border-top-right-radius:15px;
 	cursor: pointer;
 }
 /******************** header **************************/
@@ -186,18 +184,24 @@ header h1 .wstazka:after{
 	top: 0px;
 }
 .powitanie2{
-	position: relative;
-	left: 0px;
-	top: 0px;	
+	position: absolute;
+	right: 20px;
+	top: 20px;	
 	border: 0;
 	background: transparent;
 	cursor: pointer;
 	color: #000;
 	text-decoration: none;
 	font-family: Cambria;
+	font-size: 16px;
+	color: #888;
 }
 .powitanie2:hover{
 	text-decoration: underline;
+}
+#logout{
+	margin: 0;
+	padding: 0;
 }
 /***********************************************/
 #login{
@@ -232,7 +236,9 @@ header h1 .wstazka:after{
 	top: 16px;
 	transition: transform 0.5s;
 }
-.login_tekst{
+.login_tekst,
+.login_tekst2,
+.login_tekst3{
 	position: relative;
 	display: inline-block;
 	margin: 0;
@@ -240,7 +246,13 @@ header h1 .wstazka:after{
 	top: 10px;
 	font-size: 16px;
 }
-
+.login_tekst2,
+.login_tekst3{
+	top:20px;
+}
+.login_tekst2{
+	font-size: 12px;
+}
 #logowanie_wrap{
 	position: absolute;
 	/*	
@@ -274,10 +286,16 @@ header h1 .wstazka:after{
 #logowanie input[type="text"],
 #logowanie input[type="password"],
 #add .monit_logowanie input,
-#submit2{
+#submit2,
+#add_materialy_dodaj input[type="text"],
+#submit_dodaj,
+#labelObrazek,
+#akcja_name,
+#akcja_select{
 	position: relative;
 	top: 0px;
-	left: 0px; 	
+	left: 0px;
+	margin: 0 auto 20px auto;
 	width: 100%;
 	border: none;
 	border-radius: 4px;
@@ -290,7 +308,6 @@ header h1 .wstazka:after{
 	-moz-box-sizing: border-box;
 	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-	margin-bottom: 20px;
 }
 #logowanie input[type="text"]:focus,
 #logowanie input[type="password"]:focus,
@@ -512,7 +529,7 @@ nav ul li a:hover
 {
 	margin: 0px auto;
 	padding-bottom: 50px;
-	min-height: 400px;
+	min-height: 450px;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	display: none;
@@ -534,32 +551,71 @@ nav ul li a:hover
 }
 .add_content{
 	margin: 0 auto;
-	padding: 75px;
+	padding: 75px 75px 0 75px;
 	position: relative;
 	text-align: center;
 }
 .add_kategoria{
+	position: relative;
+	margin: 0;
 	height: 400px;
-	width: 250px;
-	display: inline-block;
-	border-right: 2px solid #888;
+	width: 400px;
+	display: block;
+	/*border-right: 2px solid #888;*/
+	float: left;
+	/*background: blue;*/
 }
 .add_kategoria ul{
 	
-	margin: 0;
+	margin: 75px auto 0 auto;
 	padding: 0;
 	width: 200px;
 	height: 300px;
-	background: yellow;
 }
 .add_kategoria ul li{
 	margin: 0;
 	padding: 0;
 }
-.add_materialy{
-	height: 400px;
-	width: 500px;
+.add_kategoria img{
 	display: inline-block;
+	margin: 0px auto 40px auto;
+	max-width: 200px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.75);
+}
+.add_materialy{
+	position: relative;
+	margin: 0 0 0 400px;
+	height: 400px;
+	width: 550px;
+	display: block;
+	/*background: green;*/
+}
+.wybierzObrazek{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/*****  form beacon  *****/
+#labelObrazek,
+#akcja_name,
+#akcja_select{
+	display: inline-block;
+	top:0px;
+	max-width: 200px;
+	overflow: hidden;
+}
+#add_materialy_dodaj input[type="text"],
+#submit_dodaj{
+	width: 70%;
+}
+#add_materialy_edytuj,
+#add_matierialy_usun{
+	display: none;
 }
 /************* PLACES **************/
 .cont
@@ -593,47 +649,85 @@ nav ul li a:hover
 	color: #fff;
 	transition: background 0.2s linear;
 }
-.wpis, .wpis0, .wpis1 
+.wpis, 
+.wpis0, 
+.wpis1,
+.rank,
+.rank0,
+.rank1 
 {
 	position: relative;
 	margin: 0 auto;
-	/*overflow: hidden;*/
+	overflow: hidden;
 	text-align: center;
 
 }
-.wpis{
-	height:2.7em;
+.wpis,
+.rank{
+	height:40px;
+	padding-bottom: 20px;
 	color: #000;
-	font-size: 1.5em;
+	font-size: 18px;
 }
-.wpis0, .wpis1{
+.rank,
+.rank0,
+.rank1{
+	width: 60%;
+}
+.wpis0, 
+.wpis1,
+.rank0,
+.rank1{
 	border-radius: 3px;
 	border-bottom: 1px solid #FFF;
-	height:2.3em;
+	height:60px;
 	color: #666;
-	font-size: 1em;;
+	font-size: 14px;
 }
 .thead, .thead0, .thead1{
 	margin: 0;
 	padding: 3px;	
 	display:inline-block;
-	width: 150px;
+	width: 160px;
 	text-align: center;
-	line-height: 2em;
+	line-height: 60px;
+	overflow: hidden;
 }
-.wpis0{
+.end{
+	height: 60px;
+	width: 40px;
+}
+.end img{
+	position: absolute;
+	top: 20px;
+	display: none;
+	transition: 0.2s linear;
+}
+.end img:hover{
+	transform: scale(1.5);
+}
+.wpis0,
+.rank0{
 	/*background: #ceeefa;*/
 	background: #fcf7cf;
 }
-.wpis1{
+.wpis1,
+.rank1{
 	/*background: #96c5d6;*/
 	background: #f7ea88;
 }
 .wpis0:hover,
-.wpis1:hover{
+.wpis1:hover,
+.rank0:hover,
+.rank1:hover{
 	/*background: #f2dd40;*/
 	background: #d7bf0f;
 	color: #333;
+}
+.wpis0:hover .end img,
+.wpis1:hover .end img{
+	display: block;
+	cursor: pointer;
 }
 .cont a{
 	margin: 0;
@@ -642,13 +736,23 @@ nav ul li a:hover
 	color: #666;
 	
 }
+datalist{
+	
+}
+#beacon-pic{
+	float: left;
+	display: inline-block;
+	margin: 10px 20px 30px 0px;
+	width: 100px;
+	height: 100px;
+}
 #add .monit_logowanie{
 	position: relative;
 	top:60px;
 	margin:0px auto;
-	padding: 50px 100px;
+	padding: 50px 50px;
 	height: 280px;
-	width: 200px;
+	width: 300px;
 	background: rgba(255,255,255,0.7);
 	border-radius: 10px;
 	text-align: center;
@@ -658,7 +762,10 @@ nav ul li a:hover
 	top: 10px;
 	line-height: 1.3em;
 	letter-spacing: 0.05em;
-	margin: 0px 0px 50px 0px;
+	margin: 0px 0px 30px 0px;
+}
+#add .monit_logowanie span{
+	color: red;
 }
 #add .monit_logowanie p.dane{
 	position: relative;
@@ -668,16 +775,20 @@ nav ul li a:hover
 	margin-top: 0px;
 }
 #add input[type="submit"],
-#submit2{
+#submit2,
+#submit_dodaj,
+#labelObrazek{
 	cursor: pointer;
 	border:0;
 	outline:0;
 }
+
 .none{
 	display: none;
 }
 /* footer */
 footer{
+	clear:left;
 	position: relative;
 	padding: 0 5em;
 	height: 300px;
@@ -710,10 +821,12 @@ p.footer_opis{
 @media only screen and (max-width: 1300px){
 	p.footer_opis{font-size: 20px; margin-bottom: 20px;}
 	footer{padding: 0 3em;}
+	.add_materialy{width:550px;}
 }
 @media only screen and (max-width: 900px){
 	p.footer_opis{font-size: 18px; margin-bottom: 20px;}
 	footer{padding: 0 2em;}
+	.add_materialy{width:350px;}
 }
 ul.footer_opis_3{
 	margin: 40px 20px 30px 20px;
@@ -738,6 +851,11 @@ footer ul li{
 	font-family: Cambria;
 	color: #000;
 	text-decoration: none;	
+	overflow: hidden;
+}
+footer ul li span{
+	position: absolute;
+	right: 40px;
 }
 footer ul li a{
 	font-family: Cambria;

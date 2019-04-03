@@ -1,6 +1,6 @@
 <?php
 session_start();
-$usr = $_POST['inp_login'];
-$pss = $_POST['inp_pass'];
+$login = htmlentities($_POST['inp_login']);
+$pass = htmlentities($_POST['inp_pass']);
 include('login.php');
 ?>

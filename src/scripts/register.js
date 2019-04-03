@@ -58,6 +58,7 @@ function checkLog(){
 	l.addEventListener('focus', setBack, false);
 	h.addEventListener('focus', setBack, false);
 	if(ok == true){
+		login.style.cursor = "default";
 		var frm = document.getElementById("add_logowanie");
 		frm.submit();
 		console.log("Login OK");
@@ -104,13 +105,16 @@ function checkForm(){
 			inRegPass2.value = "";
 			ready = false;
 		}
+		
 		let x = inRegEmail.value.lastIndexOf(".");
 		let y = parseInt(inRegEmail.value.indexOf("@")) + 1;
+		
 		if(inRegEmail.value == "" || inRegEmail.value.indexOf("@")<1 || x<y){
 			inRegEmail.style.border = "2px solid #900";
 			inRegEmail.style.padding = "8px";
 			ready = false;
 		}
+		
 		if(!modCheckBox.checked && !admCheckBox.checked){
 			divOtoczka[0].style.background = "#FF0000";
 			divOtoczka[1].style.background = "#FF0000";
@@ -126,19 +130,31 @@ function checkForm(){
 	admCheckBox.addEventListener('change', chkBack, false);
 	
 	if(ready){
+		var f = document.getElementById("logowanie");
+		var att_action = document.createAttribute("action");		
 		if(l_or_r == "log"){
-			var f = document.getElementById("logowanie");
-			var att_action = document.createAttribute("action");
 			att_action.value = "pre_login_1.php";
 			f.setAttributeNode(att_action);
 			f.submit();
-			console.log("ready and log");				
+			console.log("ready and log");
 		}
 		else if(l_or_r =="reg"){
 			//console.log("inRegEmail.value.indexOf(\"@\") = " + inRegEmail.value.indexOf("@") + "\ninRegEmail.value.lastIndexOf(\".\") = " + inRegEmail.value.lastIndexOf("."));
 			//console.log("inRegEmail.value.lastIndexOf(\".\") > inRegEmail.value.indexOf(\"@\") + 1 = " + inRegEmail.value.lastIndexOf(".") + " > " + (inRegEmail.value.indexOf("@") + 1));		
-			console.log("ready and reg");
+			if(modCheckBox.checked && admCheckBox.checked){
+				att_action.value = "register_admin.php";
+				f.setAttributeNode(att_action);
+				f.submit();
+				console.log("ready and reg adm");
+			}
+			else{
+				att_action.value = "register_user.php";
+				f.setAttributeNode(att_action);
+				f.submit();
+				console.log("ready and reg usr");
+			}
 		}
+		login.style.cursor = "default";
 	}
 }
 
@@ -175,4 +191,7 @@ function resetForm(){
 	inRegPass2.value = "";
 	inRegEmail.style.border = "none";
 	inRegEmail.style.padding = "10px";	
+}
+function ValidateEmail(mail){
+return (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(myForm.emailAddr.value));
 }

@@ -5,7 +5,6 @@ var log_wrap = document.getElementById("logowanie_wrap");
 var reg = document.getElementById('rejestracja');
 var log = document.getElementById('logowanie');
 var login = document.getElementById('login');
-var login_child = document.getElementsByClassName("login_tekst")[0].innerHTML;
 var sbmt = document.getElementById('submit');
 var sbmt2 = document.getElementById('submit2');
 
@@ -26,11 +25,9 @@ var addEvent = function(object, type, callback){
 addEvent(window, "resize", colorBoxes);
 addEvent(window, "mouseup", function(e){closeLogin(e.target)});
 
-//console.log(login_child);
-if(login_child.indexOf("rejestracja")>0){
-	login.addEventListener('click', open_login, false);
-}
+login.addEventListener('click', open_login, false);
 reg.addEventListener('click', open_reg, false);
+
 sbmt2.addEventListener('mouseover', colorSbmt2click, false);
 sbmt2.addEventListener('mouseout', colorSbmt2, false);
 colorSbmt2();
@@ -38,27 +35,43 @@ colorSbmt2();
 log_wrap.style.height = '0px';
 
 function open_login(){	
-	colorBoxes(log_wrap, 50, 400);
-	if(log_wrap.style.height === '190px'){
-		//resetForm();
-		/*
-		setTimeout(function(){
-			var log_wrap = document.getElementById('logowanie_wrap');
+	//alert("indexOf rejestracja = " + (login.innerHTML).indexOf("rejestracja"));
+	if((login.innerHTML).indexOf("logowanie") > 0){
+		colorBoxes(log_wrap, 50, 400);
+		if(log_wrap.style.height === '190px'){
 			log_wrap.style.height = '0px';
-			}, 400);
-		*/
-		log_wrap.style.height = '0px';
-	}
-	else{
-		if(log_wrap.style.height === '0px'){
-			reg.style.display = "inline-block";
-			sbmt.style.display = "inline-block";
-			sbmt.style.position = "relative";
-			sbmt.style.top = "-5px";
-			log_wrap.style.height = '190px';
 		}
 		else{
-			log_wrap.style.height = '0px';
+			if(log_wrap.style.height === '0px'){
+				reg.style.display = "inline-block";
+				sbmt.style.display = "inline-block";
+				sbmt.style.position = "relative";
+				sbmt.style.top = "-5px";
+				log_wrap.style.height = '190px';
+			}
+			else{
+				log_wrap.style.height = '0px';
+			}
+		}
+	}
+	else{
+		if((login.innerHTML).indexOf("rejestracja konta administratora") > 0){
+			colorBoxes(log_wrap, 50, 400);
+			if(log_wrap.style.height === '0px'){
+				//console.log(rej_wrap.style.height); 
+				reg.style.display = "none";
+				sbmt.style.position = "absolute";
+				sbmt.style.top = "455px";
+				log_wrap.style.height = '550px';
+			}
+			else{
+				log_wrap.style.height = '0px';
+			}
+		} 
+		else {
+			var logout = document.getElementById("logout_submit");
+			//logout.addEventListener('mouseover', function() {}, false);
+			logout.addEventListener('click', function() { login.submit(); }, false);
 		}
 	}
 }
@@ -76,6 +89,7 @@ function colorBoxes(obj, margin1, margin2){
 	var colorB = getColor(color1, color2, margin2);
 	var gradient = "linear-gradient(to left, " + colorA.toString() + " 0%, " + colorB.toString() + " 100%)";
 	obj.style.background = gradient;
+	console.log("obj = " + obj.getAttribute("id"));
 }
 function closeLogin(obj){
 	var ol = logowanie.getElementsByTagName('ol')[0];
@@ -108,6 +122,7 @@ function closeLogin(obj){
 		}
 	}
 }
+// kolorowanie przycisków
 function colorSbmt2(){
 	//var len = parseInt(sbmt2.style.width);
 	colorBoxes(sbmt2, 450, 650);

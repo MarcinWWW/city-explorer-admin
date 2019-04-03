@@ -12,7 +12,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 	$login = $_SESSION['username'];
+	include('admin.php');
 }
+include('beacon.php');
 ?>
 <html>
 <head>
@@ -37,6 +39,11 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 	<?php } ?>
 	<article id="art">
 		<header>
+			<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@") { ?>
+				<form id="logout" action="logout.php" method="post">
+					<input id="logout_submit" name="logout_submit" type="submit" class="powitanie2" value="wyloguj">
+				</form>
+			<?php } ?>
 			<img class="logo" src="img/logo.png" alt="logo" width="50" height="50">
 			<h2>City Explorer</h2>
 				<div class="cssclass">
@@ -46,17 +53,19 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 						<option value="dark.css">dark</option>
 					</select>
 				</div>
-				<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){ ?>
-					<form id="powitanie" action="logout.php" method="post">
-						<p class="powitanie1">Witaj <?php echo $login; ?>, </p>
-						<input type="submit" name="logout_submit" class="powitanie2" value="wyloguj">
-					</form>
-				<?php } ?>
 				<h1>
 					<strong class="wstazka"></strong>
-					<div id="login">
-						<img class="login_circle" src="img/login.png" alt="City Explorer - Logowanie, rejestracja" height="25" width="25">
-						<p class="login_tekst">logowanie / rejestracja</p> 
+					<div id="login" action="logout.php" method="post">
+						<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@yes@"){ ?>
+							<p class="login_tekst3">Witaj <?php echo $login; ?></p>
+							<br>
+							<p class="login_tekst2">rejestracja konta administratora</p>
+						<?php } elseif($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@no@"){ ?>
+							<p class="login_tekst3">Witaj <?php echo $login; ?></p> 
+						<?php } else{ ?>
+							<img class="login_circle" src="img/login.png" alt="City Explorer - Logowanie, rejestracja" height="25" width="25">
+							<p class="login_tekst">logowanie / rejestracja</p> 
+						<?php } ?>
 					</div>
 					<div id="logowanie_wrap">
 						<form id="logowanie" method="post">
@@ -64,28 +73,33 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 							<input id="val_pass" name="inp_pass" type="password" value="" placeholder="hasło">
 							<div id="submit" name="log_submit">OK</div>
 							<p id="rejestracja">zarejestruj się</p>
-							<input name="inp_pass2" name="val_pass2" type="password" placeholder="powtórz hasło" value="">
-							<input name="inp_email" name="val_email" type="text" placeholder="e-mail" value="<?php echo htmlspecialchars($email); ?>">							
+							<input name="inp_pass2" id="val_pass2" type="password" placeholder="powtórz hasło" value="">
+							<input name="inp_email" id="val_email" type="text" placeholder="e-mail (opcjonalnie)" value="<?php echo htmlspecialchars($email); ?>">							
 							<p class="reg_tekst">REGULAMIN</p> 
 							<div class="regulamin">
 								<ol>
 									<li>Przystąpienie do portalu City Explorer jest dobrowolne i nieobciążone żadnymi kosztami.</li>
 									<li>W celu rejestracji należy podać dane kontaktowe e-mail, podanie danych jest dobrowolne.</li>
 									<li>Właścicielem danych podanych przez użytkowników na portalu jest portal City Explorer, użytkownicy mają prawo w każdej chwili do poprawienia danych lub usunięcie konta.</li>
+									<li>Dodawać i usuwać beacony może tylko administrator systemu.</li>
 								</ol>	
 							</div>
+							<!--
 							<div class="dologowania">
 								<div class="chk_box_otoczka">
 									<input type="checkbox" name="mod_checkbox" value="" checked disabled>
 								</div>							
-								<p>moderator</p>
+								<p>użytkownik</p>
 							</div>
+							-->
+							<?php if($_SESSION['admin'] == "@yes@") { ?>
 							<div class="dologowania">
 								<div class="chk_box_otoczka">
-									<input type="checkbox" name="adm_checkbox" value="" disabled>
+									<input type="checkbox" name="adm_checkbox" value="">
 								</div>
 								<p>administrator</p>
 							</div>
+							<?php } ?>
 							<div class="dologowania space">
 								<div class="chk_box_otoczka">
 									<input id="chk_reg" type="checkbox" name="reg_checkbox_accept" value="">
@@ -99,7 +113,7 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 		<nav>
 			<div class="innav">
 				<ul>
-					<li><a id="btnAdd" href="#">dodaj</a></li>
+					<li><a id="btnAdd" href="#">dodaj beacon</a></li>
 					<li><a id="btnPlaces" href="#">miejsca z beaconami</a></li>
 					<li><a id="btnRank" href="#">ranking</a></li>
 				</ul>
@@ -108,10 +122,11 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 		<section>
 			<div id="add">
 				<?php
-					if(!isset($_SESSION['username']) || $_SESSION['username'] == "@nouser@"){
+					if(!isset($_SESSION['username']) || $_SESSION['username'] == "@nouser@" || $_SESSION['admin'] == "@no@"){
 				?>
 				<div class="monit_logowanie">
-					<p class="info">Należy zalogować się, żeby móc dodawać scenariusze City Explorer</p>
+					<img id="beacon-pic" alt="dodawanie i usuwanie beaconów" src="img/beacon-pic.png" width="100" height="100">
+					<p class="info">Należy zalogować się w roli <span>Administratora</span>, żeby móc dodawać lub usuwać beacony <br>City Explorer</p>
 					<form id="add_logowanie" action="pre_login_2.php" method="post">
 						<input id="inp_log1" name="inp_log1" type="text" placeholder="login">
 						<input id="inp_log2" name="inp_log2" type="password" placeholder="password">
@@ -119,10 +134,11 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 					</form>
 				</div>
 				<?php 
-					}
-					else{
+					} else {
 				?>
-				<div class="monit_logowanie none"><p class="info">Należy zalogować się, żeby móc dodawać scenariusze City Explorer</p>
+				<div class="monit_logowanie none">
+					<img alt="dodawanie i usuwanie beaconów" src="img/beacon-pic.png" width="100" height="100">
+					<p class="info">Należy zalogować się w roli <span>Administratora</span>, żeby móc dodawać lub usuwać beacony <br>City Explorer</p>
 					<form id="add_logowanie" action="pre_login_2.php" method="post">
 						<input id="inp_log1" name="inp_log1" type="text" placeholder="login">
 						<input id="inp_log2" name="inp_log2" type="password" placeholder="password">
@@ -131,15 +147,58 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 				</div>
 				<div class="add_content">
 					<div class="add_kategoria">
-						<h3>kategoria</h3>
-						<ul>
-							<li>dodaj</li>
-							<li>edytuj</li>
-							<li>usuń</li>
-						</ul>
+						<form id="add_materialy_img" enctype="multipart/form-data" action="send_img.php" method="post">
+							<input type="hidden" name="MAX_FILE_SIZE" value="2480000">
+							<input type="file" name="obrazek" id="obrazek" class="wybierzObrazek">
+							<label id="labelObrazek" for="obrazek">
+								<?php if($_FILES['obrazek']['name'] != '') 
+										echo $_FILES['obrazek']['name'];
+									else
+										echo "Wybierz obraz";
+								?></label>
+							<input type="submit" name="obrazekLocalSubmit" class="none" value="submit">
+						</form>
+						<?php if($_FILES['obrazek']['name'] != ''){ 
+								$name = $_FILES['obrazek']['name'];
+								echo "<img alt=\"$name\" src=\"img/up/$name\" >";
+								/*
+								echo "<br>lokalizacja = " . $lok;
+								echo "<br>filename = " . $filename;
+								echo "<br>filedata = " . $filedata;
+								echo "<br>filesize = " . $filesize;
+								echo "<br>filetype = " . $filetype;
+								*/
+							}								
+						?>
+						<form id="add_materialy_akcja" action="" method="post">
+							<input id="akcja_name" type="text" name="akcja_name" placeholder="nazwa akcji">
+							<select id="akcja_select">
+								<option value="akcja 1">akcja 1</option>
+								<option value="akcja 2">akcja 2</option>
+								<option value="akcja 3">akcja 3</option>
+								<option value="akcja 4">akcja 4</option>
+							</select>
+						</form>
 					</div>
 					<div class="add_materialy">
-						<h3>materiały</h3>
+						<form id="add_materialy_dodaj" method="post">
+							<input id="beacon_id" type="text" name="beacon_id" placeholder="ID major" value="<?php echo htmlspecialchars($beacon_id);?>">
+							<input id="beacon_id_minor" type="text" name="beacon_id_minor" placeholder="ID minor" value="<?php echo htmlspecialchars($beacon_id_minor);?>">
+							<input id="beacon_nazwa" type="text" name="beacon_nazwa" placeholder="nazwa" value="<?php echo htmlspecialchars($beacon_nazwa);?>">
+							<input id="beacon_grupa" list="grupy" type="text" name="beacon_grupa" placeholder="grupa beaconów" value="<?php echo htmlspecialchars($beacon_grupa);?>">
+							<datalist id="grupy">
+							<?php
+								//include("group.php");
+							?>
+							</datalist>
+							<input id="beacon_location" type="text" name="beacon_location" placeholder="lokalizacja" value="<?php echo htmlspecialchars($beacon_location);?>">
+							<input id="beacon_address" type="text" name="beacon_address" placeholder="adres" value="<?php echo htmlspecialchars($beacon_address);?>">
+							<!--<input id="beacon_coordinates" type="text" name="beacon_coordinates" placeholder="współrzędne">-->
+							<div id="submit_dodaj">DODAJ BEACON</div>
+						</form>
+						<form id="add_materialy_usun" action="delete.php" method="POST">
+							<input id="beacon_delete" class="none" type="text" name="beacon_delete" value="">
+						</form>
 					</div>
 				</div>
 				<?php
@@ -148,81 +207,99 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 			</div>
 			<div id="places">
 				<?php 
-					#if(isset($_SESSION['username'])&& $_SESSION['username'] != "@nouser@"){
-						$user = "id7644712_mar";
-						$pass = "city1";
-						$db = "id7644712_city";
-						$server = "localhost";
-						$ogl = 0;
+					echo "<script>console.log('beacony ściągnięte z serwera')</script>";
+					echo "<div class='cont'>";
+					echo "<div class='search'>";
+					echo "<p>standardowe UUID beaconów w City Explorer = <strong><i>B9407F30-F5F8-466E-AFF9-25556B57FE6D</i></strong></p>"; 
+					#echo "<input type='text' placeholder='szukaj miejsca z beaconami..'>" ;
+					#echo "<input class='sub' type='submit' value='szukaj'>";
+					echo "</div>";
+					echo "<div class='wpis'>";
+					echo "<div class='thead none'>ID</div>";
+					echo "<div class='thead'>ID major</div>";
+					echo "<div class='thead'>ID minor</div>";
+					echo "<div class='thead'>beacon</div>";
+					echo "<div class='thead'>grupa</div>";
+					echo "<div class='thead'>miasto</div>";
+					echo "<div class='thead'>miejsce</div>";
+					if($_SESSION['admin'] == "@yes@")
+						echo "<div class='thead end'></div>";
+					//echo "<div class='thead'>GPS</div>";
+					echo "</div>";
+					$ogl = 0;
+					$key = 0;
+					foreach($_SESSION['beacon'] as $key => $value)
+					{
+						$ogl = $key;
+						$klasa = "thead".$ogl%2;
+						$klasa2 = $klasa . " none";
+						$wpis = "wpis".$ogl%2;
 						
-						$conn = mysql_connect($server, $user, $pass);
-						mysql_set_charset("utf8", $conn);
-						//mysql_query('SET NAMES utf8');
-						mysql_select_db("id7644712_city");
-						
-						$sql = "SELECT b.ID, bl.Name, bl.Address, c.Latitude, c.Longitude FROM beacon b LEFT JOIN beaconlocation bl ON b.LocationID = bl.ID LEFT JOIN coordinate c ON bl.CoordinateID = c.ID";
-						$records = mysql_query($sql);
-						
-						echo "<div class='cont'>";
-						#echo "kodowanie ".mb_detect_encoding("poznań");
-						#echo "<div class='search'>";
-						#echo "<input type='text' placeholder='szukaj miejsca z beaconami..'>" ;
-						#echo "<input class='sub' type='submit' value='szukaj'>";
-						#echo "</div>";
-						echo "<div class='wpis'>";
-						echo "<div class='thead'>beacon</div>";
-						echo "<div class='thead'>miasto</div>";
-						echo "<div class='thead'>miejsce</div>";
-						echo "<div class='thead'>szerokość GPS</div>";
-						echo "<div class='thead'>długość GPS</div>";
+						echo "<div class='".$wpis."'>";
+						echo "<div class='".$klasa2."'>".$_SESSION['beacon'][$key]['id']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['major']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['minor']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['type']['name']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['groups']['name']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['name']."</div>";
+						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['address']."</div>";
+						if($_SESSION['admin'] == "@yes@")
+							echo "<div class='".$klasa." end'><img class='iksUsun' alt='usuń beacon' src='img/iks.png' width='25' height='25'></div>";
+						//echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['coordinaes']."</div>";								
+			
 						echo "</div>";
-						
-						while($item=mysql_fetch_assoc($records))
-						{
-							$klasa = "thead".$ogl%2;
-							$wpis = "wpis".$ogl%2;
-							#$id = $item['id'];
-							
-							echo "<a href='#'><div class='".$wpis."'>";
-							echo "<div class='".$klasa."'>".$item['ID']."</div>";
-							echo "<div class='".$klasa."'>".$item['Name']."</div>";
-							echo "<div class='".$klasa."'>".$item['Address']."</div>";
-							echo "<div class='".$klasa."'>".$item['Latitude']."</div>";
-							echo "<div class='".$klasa."'>".$item['Longitude']."</div>";						
-							#echo "<div class='".$klasa."'>kodowanie ".mb_detect_encoding($item['miasto'])."</div>"; 
-							echo "</div></a>";
-							
-							$ogl++;
-						}
-
-						echo "</div>";
-						mysql_close($conn);					
-					#}
+					}
+					echo "</div>";				
 				?>
 			</div>
 			<div id="ranking">
+				<?php 
+					echo "<div class='cont'>";
+					echo "<div class='wpis'>";
+					echo "<div class='thead'>pozycja</div>";
+					echo "<div class='thead'>użytkownik</div>";
+					echo "<div class='thead'>punktacja</div>";
+					echo "</div>";
+					$ogl = 1;
+					foreach($_SESSION['top20'] as $key => $value)
+					{
+						$ogl++;
+						$klasa = "thead".$ogl%2;
+						$klasa2 = $klasa . " none";
+						$wpis = "rank".$ogl%2;
+						
+						echo "<a href='#'><div class='".$wpis."'>";
+						echo "<div class='".$klasa."'>".($ogl-1)."</div>";
+						echo "<div class='".$klasa."'>".$key."</div>";
+						echo "<div class='".$klasa."'>".$value."</div>";					
+			
+						echo "</div></a>";
+					}
+					echo "</div>";				
+				?>
 			</div>
 		</section>
 		<footer>
 			<div class="podzial">
 				<p class="footer_opis">Projekt inżynierski 2019</p>			
 				<ul>
+					<li>&nbsp;</li>
 					<li>Ewa Chojnacka</li>
 					<li>Daniel Gruchociak</li>
-					<li>Jakub Hope</li>
 					<li>Marcin Macias</li>
 					<li>Marcin Jadwiszczak</li>
 				</ul>		
 			</div>
 			<div class="podzial">
 				<p class="footer_opis">5 najlepszych graczy</p>
-				<ul>
-					<li>gracz #1</li>
-					<li>gracz #2</li>
-					<li>gracz #3</li>
-					<li>gracz #4</li>
-					<li>gracz #5</li>
-				</ul>	
+				<?php
+					echo "<ul>";
+						foreach($_SESSION['top5'] as $key => $value)
+						{
+							echo "<li>".$key."<span>".$value."</span></li>";				
+						}
+					echo "</ul>";
+				?>				
 			</div>
 			<div class="podzial ostatni">
 				<ul class="footer_opis_3">
@@ -240,6 +317,9 @@ if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 	<script src="scripts\header.js"></script>
 	<script src="scripts\content.js"></script>
 	<script src="scripts\register.js"></script>	
+	<?php if(isset($_SESSION['username']) && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@yes@" ){ ?>
+		<script src="scripts\walidacja_content.js"></script>	
+	<?php } //else echo "USERNAME = " . $_SESSION['username'];?>
 	<?php
 		if($_SESSION['username'] == "@nouser@" && $_SESSION['loginsuccess'] == "@no@"){
 			echo "<script>hide_log(3000,4000,'1s');</script>";
