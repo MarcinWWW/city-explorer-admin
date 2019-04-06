@@ -1,20 +1,20 @@
-package Tests;
+package Tests.TestCases;
+
+import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import PageObjects.FrontPage;
+import Tests.PageObjects.FrontPage;
 
 
-public class deleteBeacon {
+public class invalidLoginCase {
 	
 	WebDriver driver;
 	FrontPage objFront;
@@ -27,31 +27,21 @@ public class deleteBeacon {
 	}
 	
 	@Test
-	public void newBeaconTest() throws InterruptedException {
+	public void incorrectUserData() {
 		objFront = new FrontPage(driver);
-		objFront.setLogin("danadmin");
-		objFront.setPassword("admin");
+		objFront.setLogin("admin1");
+		objFront.setPassword("admin1");
 		objFront.login();
-		objFront.setID("1");
-		objFront.setMinorId("1");
-		objFront.setBcnName("nazwa Test");
-		objFront.setBcnGrp("grupa Test");
-		objFront.setBcnLoc("miasto Test");
-		objFront.setBcnAddr("ulica Test");
-		objFront.newBeacon();
-		Thread.sleep(2000);
-		objFront.bcnList();
-		driver.findElement(By.xpath("//div[contains(text(),'"+objFront.getBcnName()+"')]")).click();
-		
-		//driver.switchTo().alert().accept();
+		//System.out.println(driver.findElement(By.xpath("//div[@id='center_failed_login']//p[1]")).isDisplayed());
+		assertEquals(driver.findElement(By.xpath("//div[@id='center_failed_login']//p[1]")).isDisplayed(), true);
 	}
+	
 	
 	@AfterMethod
 	public void closeDriver() throws InterruptedException {
 		objFront = new FrontPage(driver);
 		Thread.sleep(1000);
-		objFront.logout();
-        System.out.println("Test przeprowadzony prawid³owo, Beacon zosta³ dodany, a nastêpnie usuniêty.");
+        System.out.println("Test przeprowadzony prawid³owo, nie da siê zalogowaæ z nieprawid³owymi danymi");
         driver.quit();
     }
 }

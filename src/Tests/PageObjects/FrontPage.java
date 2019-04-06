@@ -1,5 +1,6 @@
-package PageObjects;
+package Tests.PageObjects;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -84,6 +85,15 @@ public class FrontPage {
 	
 	@FindBy(xpath="//li[@id='add_usun']")
 	private WebElement delBcn;
+	
+	@FindBy(xpath="//input[@id='obrazek']")
+	private WebElement addFile;
+	
+	@FindBy(xpath="//input[@id='akcja_name']")
+	private WebElement actionName;
+	
+	@FindBy (xpath="//select[@id='akcja_select']")
+	private WebElement actionList;
 	
 	WebDriver driver;
 	public FrontPage(WebDriver driver) 
@@ -189,6 +199,16 @@ public class FrontPage {
 	public void saveNewAccount() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(submitBtn)).click();
+	}
+	
+	public void addFile(String actName) {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		//wait.until(ExpectedConditions.elementToBeClickable(addFile)).click();
+		addFile.sendKeys("C:\\test.jpeg");
+		actionName.sendKeys(actName);
+		actionList.click();
+		actionList.sendKeys(Keys.DOWN);
+		actionList.sendKeys(Keys.ENTER);
 	}
 	
 }

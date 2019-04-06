@@ -1,4 +1,6 @@
-package Tests;
+package Tests.TestCases;
+
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,10 +13,10 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import PageObjects.FrontPage;
+import Tests.PageObjects.FrontPage;
 
 
-public class addNewBeaconTest2 {
+public class addNewBeaconWithFileCase {
 	
 	WebDriver driver;
 	FrontPage objFront;
@@ -26,18 +28,23 @@ public class addNewBeaconTest2 {
 		driver.get("https://cityexplorer.000webhostapp.com/");
 	}
 	
+	Random ran = new Random();
+	int nxt = ran.nextInt(99999);
+	
 	@Test
-	public void newBeaconTest() {
+	public void newBeaconTest() throws InterruptedException {
 		objFront = new FrontPage(driver);
-		objFront.setLogin("danadmin");
+		objFront.setLogin("admin");
 		objFront.setPassword("admin");
 		objFront.login();
-		objFront.setID("1337");
-		objFront.setMinorId("2137");
-		objFront.setBcnName("nazwa Test");
+		objFront.setID("5");
+		objFront.setMinorId("5");
+		objFront.setBcnName("nazwa Test " +nxt);
 		objFront.setBcnGrp("grupa Test");
 		objFront.setBcnLoc("miasto Test");
 		objFront.setBcnAddr("ulica Test");
+		objFront.addFile("akcja testowa");
+		Thread.sleep(1000);
 		objFront.newBeacon();
 		objFront.bcnList();
 		Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'"+objFront.getBcnName()+"')]")).getText(), objFront.getBcnName());
