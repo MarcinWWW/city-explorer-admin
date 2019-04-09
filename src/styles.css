@@ -830,6 +830,19 @@ p.footer_opis{
 }
 ul.footer_opis_3{
 	margin: 40px 20px 30px 20px;
+	font-family: Cambria;
+	/*font-family: "Andika", sans-serif;*/
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+ul.footer_opis_3 a{
+	text-decoration: none;
+	color: #000;
+}
+ul.footer_opis_3 li:hover,
+ul.footer_opis_3 li a:hover{
+	text-decoration: underline;
 }
 p.footer_podpis{
 	margin-top:10px;
@@ -857,12 +870,3 @@ footer ul li span{
 	position: absolute;
 	right: 40px;
 }
-footer ul li a{
-	font-family: Cambria;
-	/*font-family: "Andika", sans-serif;*/
-	color: #000;
-	text-decoration: none;
-}
-footer ul li a:hover{
-	text-decoration: underline;
-} 

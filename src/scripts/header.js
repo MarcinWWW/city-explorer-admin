@@ -7,6 +7,9 @@ var log = document.getElementById('logowanie');
 var login = document.getElementById('login');
 var sbmt = document.getElementById('submit');
 var sbmt2 = document.getElementById('submit2');
+var footer_log = document.getElementById("footer_logowanie");
+var footer_rej = document.getElementById("footer_rejestracja");
+var footer_regu = document.getElementById("footer_regulamin");
 
 //	object: the element or window object
 //	type: resize, scroll (event type)
@@ -32,6 +35,9 @@ sbmt2.addEventListener('mouseover', colorSbmt2click, false);
 sbmt2.addEventListener('mouseout', colorSbmt2, false);
 colorSbmt2();
 
+footer_log.addEventListener('click', open_login, false);
+footer_rej.addEventListener('click', function(){open_login(); open_reg()}, false);
+footer_regu.addEventListener('click', function(){open_login(); open_reg()}, false);
 log_wrap.style.height = '0px';
 
 function open_login(){	

@@ -5,10 +5,12 @@ var rank = document.getElementById("ranking");
 var bAdd = document.getElementById("btnAdd");
 var bPlaces = document.getElementById("btnPlaces");
 var bRank = document.getElementById("btnRank");
+var footer_miejsca = document.getElementById("footer_miejsca");
 
 bAdd.addEventListener('click', function(){show("add");}, false);
 bPlaces.addEventListener('click', function(){show("places");}, false);
 bRank.addEventListener('click', function(){show("rank");}, false);
+footer_miejsca.addEventListener('click', function(){show("places");}, false);
 
 show("add");
 

@@ -74,7 +74,7 @@ include('beacon.php');
 							<div id="submit" name="log_submit">OK</div>
 							<p id="rejestracja">zarejestruj się</p>
 							<input name="inp_pass2" id="val_pass2" type="password" placeholder="powtórz hasło" value="">
-							<input name="inp_email" id="val_email" type="text" placeholder="e-mail (opcjonalnie)" value="<?php echo htmlspecialchars($email); ?>">							
+							<input name="inp_email" id="val_email" type="text" placeholder="e-mail" value="<?php echo htmlspecialchars($email); ?>">							
 							<p class="reg_tekst">REGULAMIN</p> 
 							<div class="regulamin">
 								<ol>
@@ -261,6 +261,7 @@ include('beacon.php');
 					echo "<div class='thead'>punktacja</div>";
 					echo "</div>";
 					$ogl = 1;
+					/*
 					foreach($_SESSION['top20'] as $key => $value)
 					{
 						$ogl++;
@@ -275,6 +276,37 @@ include('beacon.php');
 			
 						echo "</div></a>";
 					}
+					*/
+						echo "<a href='#'><div class='rank0'>";
+						echo "<div class='thead0'>1</div>";
+						echo "<div class='thead0'>Marek21</div>";
+						echo "<div class='thead0'>320</div>";	
+						echo "</div></a>";
+						
+						echo "<a href='#'><div class='rank1'>";
+						echo "<div class='thead0'>2</div>";
+						echo "<div class='thead0'>DonaAldona</div>";
+						echo "<div class='thead0'>250</div>";	
+						echo "</div></a>";
+						
+						echo "<a href='#'><div class='rank0'>";
+						echo "<div class='thead0'>3</div>";
+						echo "<div class='thead0'>xoxotiri93</div>";
+						echo "<div class='thead0'>198</div>";	
+						echo "</div></a>";
+						
+						echo "<a href='#'><div class='rank1'>";
+						echo "<div class='thead0'>4</div>";
+						echo "<div class='thead0'>akademik10</div>";
+						echo "<div class='thead0'>16</div>";	
+						echo "</div></a>";
+						
+						echo "<a href='#'><div class='rank0'>";
+						echo "<div class='thead0'>5</div>";
+						echo "<div class='thead0'>Marta2019</div>";
+						echo "<div class='thead0'>3</div>";
+						echo "</div></a>";
+						
 					echo "</div>";				
 				?>
 			</div>
@@ -292,23 +324,30 @@ include('beacon.php');
 			</div>
 			<div class="podzial">
 				<p class="footer_opis">5 najlepszych graczy</p>
+				<ul>
+					<li>Marek21</li>
+					<li>DonaAldona</li>
+					<li>xoxotiri93</li>
+					<li>akademik10</li>
+					<li>Marta2019</li>
+				</ul>
 				<?php
-					echo "<ul>";
-						foreach($_SESSION['top5'] as $key => $value)
-						{
-							echo "<li>".$key."<span>".$value."</span></li>";				
-						}
-					echo "</ul>";
+					#echo "<ul>";
+					#	foreach($_SESSION['top5'] as $key => $value)
+					#	{
+					#		echo "<li>".$key."<span>".$value."</span></li>";				
+					#	}
+					#echo "</ul>";
 				?>				
 			</div>
 			<div class="podzial ostatni">
 				<ul class="footer_opis_3">
 					<li><a href="#">Home</a></li>
-					<li><a href="#">Logowanie</a></li>
-					<li><a href="#">Rejestracja</a></li>
-					<li><a href="#">Regulamin</a></li>
-					<li><a href="#">Miejsca z beaconami</a></li>
-					<li><a href="#">Kontakt</a></li>
+					<li id="footer_logowanie"><a href="#">Logowanie</a></li>
+					<li id="footer_rejestracja"><a href="#">Rejestracja</a></li>
+					<li id="footer_regulamin"><a href="#">Regulamin</a></li>
+					<li id="footer_miejsca"><a href="#">Miejsca z beaconami</a></li>
+					<li><a href="mailto:helpdesk.cityexplorer@gmail.com">Kontakt</a></li>
 				</ul>	
 			</div>
 		</footer>
