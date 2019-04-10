@@ -10,6 +10,7 @@ var sbmt2 = document.getElementById('submit2');
 var footer_log = document.getElementById("footer_logowanie");
 var footer_rej = document.getElementById("footer_rejestracja");
 var footer_regu = document.getElementById("footer_regulamin");
+var log_wrap_reg = document.getElementById("logowanie_wrap_rejestracja");
 
 //	object: the element or window object
 //	type: resize, scroll (event type)
@@ -24,7 +25,6 @@ var addEvent = function(object, type, callback){
 		object["on"+type] = callback;
 	}
 };
-
 addEvent(window, "resize", colorBoxes);
 addEvent(window, "mouseup", function(e){closeLogin(e.target)});
 
@@ -54,6 +54,8 @@ function open_login(){
 				sbmt.style.position = "relative";
 				sbmt.style.top = "-5px";
 				log_wrap.style.height = '190px';
+				log_wrap_reg.style.display = "none";
+				resetForm();
 			}
 			else{
 				log_wrap.style.height = '0px';
@@ -69,6 +71,8 @@ function open_login(){
 				sbmt.style.position = "absolute";
 				sbmt.style.top = "455px";
 				log_wrap.style.height = '550px';
+				log_wrap_reg.style.display = "block";
+				resetForm();
 			}
 			else{
 				log_wrap.style.height = '0px';
@@ -88,6 +92,7 @@ function open_reg(){
 		sbmt.style.position = "absolute";
 		sbmt.style.top = "455px";
 		log_wrap.style.height = '550px';
+		log_wrap_reg.style.display = "block";
 	}
 }
 function colorBoxes(obj, margin1, margin2){
@@ -99,14 +104,16 @@ function colorBoxes(obj, margin1, margin2){
 }
 function closeLogin(obj){
 	var ol = logowanie.getElementsByTagName('ol')[0];
+	var reg_tekst = logowanie.getElementsByClassName('reg_tekst')[0];
+	var regu = logowanie.getElementsByClassName('regulamin')[0];
+	var p2 = document.getElementById('val_pass2');
+	var em = document.getElementById('val_email');	
 	var dl = [];
 	var chk = [];
 	dl[0] = logowanie.getElementsByClassName('dologowania')[0];
 	dl[1] = logowanie.getElementsByClassName('dologowania')[1];
-	dl[2] = logowanie.getElementsByClassName('dologowania')[2];
 	chk[0] = logowanie.getElementsByClassName('chk_box_otoczka')[0];
 	chk[1] = logowanie.getElementsByClassName('chk_box_otoczka')[1];
-	chk[2] = logowanie.getElementsByClassName('chk_box_otoczka')[2];
 	if(obj != login && obj.parentNode != login && obj != log && obj.parentNode != log && obj != log_wrap){
 		if(obj != ol && obj.parentNode != ol){
 			if(obj != dl[0] && obj.parentNode != dl[0]){
@@ -114,7 +121,7 @@ function closeLogin(obj){
 					if(obj != dl[2] && obj.parentNode != dl[2]){
 						if(obj != chk[0] && obj.parentNode != chk[0]){
 							if(obj != chk[1] && obj.parentNode != chk[1]){
-								if(obj != chk[2] && obj.parentNode != chk[2]){
+								if(obj != reg_tekst && obj != regu && obj != p2 && obj != em){
 									if(log_wrap.style.height === '190px' || log_wrap.style.height === '550px'){
 										log_wrap.style.height = '0px';
 										//console.log("closeLogin + obj = " + obj);

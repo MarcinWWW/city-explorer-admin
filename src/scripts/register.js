@@ -1,7 +1,7 @@
 var btnSub = document.getElementById("submit");
 var inCheckBox = document.getElementsByName("reg_checkbox_accept")[0];
-var modCheckBox = document.getElementsByName("mod_checkbox")[0];
-var admCheckBox = document.getElementsByName("adm_checkbox")[0];
+//var modCheckBox = document.getElementsByName("mod_checkbox")[0];
+//var admCheckBox = document.getElementsByName("adm_checkbox")[0];
 var txtAkcept = document.getElementById("akcept");
 var divOtoczka = []; //document.getElementsByClassName("chk_box_otoczka");
 var inRegLogin = document.getElementsByName("inp_login")[0];
@@ -36,9 +36,12 @@ logowanie_w.addEventListener("keypress", function(e){
 
 function getData(){
 	//console.log("liczba chk_box_otoczka.length = " + document.getElementsByClassName("chk_box_otoczka").length);
+	/*
 	for(var i=0; i<document.getElementsByClassName("chk_box_otoczka").length; i++){
 		divOtoczka[i] = document.getElementsByClassName("chk_box_otoczka")[i];
 	}
+	*/
+	divOtoczka[0] = document.getElementById("chk_box_otoczka2");
 }
 function checkLog(){
 	var l = document.getElementById("inp_log1");
@@ -85,7 +88,7 @@ function checkForm(){
 	}
 	else if(l_or_r == "reg"){
 		if(!inCheckBox.checked){
-			divOtoczka[2].style.background = "#FF0000";
+			divOtoczka[0].style.background = "#FF0000";
 			ready = false;
 		}
 		if(inRegLogin.value == ""){
@@ -114,20 +117,21 @@ function checkForm(){
 			inRegEmail.style.padding = "8px";
 			ready = false;
 		}
-		
+		/*
 		if(!modCheckBox.checked && !admCheckBox.checked){
 			divOtoczka[0].style.background = "#FF0000";
 			divOtoczka[1].style.background = "#FF0000";
 			ready = false;
 		}
+		*/
 	}
 	inRegLogin.addEventListener('focus', setBack, false);
 	inRegPass.addEventListener('focus', setBack, false);
 	inRegPass2.addEventListener('focus', setBack, false);
 	inRegEmail.addEventListener('focus', setBack, false);
 	inCheckBox.addEventListener('change', chkBack, false);
-	modCheckBox.addEventListener('change', chkBack, false);
-	admCheckBox.addEventListener('change', chkBack, false);
+	//modCheckBox.addEventListener('change', chkBack, false);
+	//admCheckBox.addEventListener('change', chkBack, false);
 	
 	if(ready){
 		var f = document.getElementById("logowanie");
@@ -141,7 +145,7 @@ function checkForm(){
 		else if(l_or_r =="reg"){
 			//console.log("inRegEmail.value.indexOf(\"@\") = " + inRegEmail.value.indexOf("@") + "\ninRegEmail.value.lastIndexOf(\".\") = " + inRegEmail.value.lastIndexOf("."));
 			//console.log("inRegEmail.value.lastIndexOf(\".\") > inRegEmail.value.indexOf(\"@\") + 1 = " + inRegEmail.value.lastIndexOf(".") + " > " + (inRegEmail.value.indexOf("@") + 1));		
-			if(modCheckBox.checked && admCheckBox.checked){
+			if(admCheckBox.checked){
 				att_action.value = "register_admin.php";
 				f.setAttributeNode(att_action);
 				f.submit();
@@ -178,8 +182,8 @@ function chkBack(){
 }
 function resetForm(){
 	divOtoczka[0].style.background = "transparent";
-	divOtoczka[1].style.background = "transparent";
-	divOtoczka[2].style.background = "transparent";
+	//divOtoczka[1].style.background = "transparent";
+	//divOtoczka[2].style.background = "transparent";
 	inRegLogin.style.border = "none";
 	inRegLogin.style.padding = "10px";
 	inRegLogin.value = "";
@@ -191,6 +195,8 @@ function resetForm(){
 	inRegPass2.value = "";
 	inRegEmail.style.border = "none";
 	inRegEmail.style.padding = "10px";	
+	inRegEmail.value = "";
+	inCheckBox.checked = false;
 }
 function ValidateEmail(mail){
 return (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(myForm.emailAddr.value));

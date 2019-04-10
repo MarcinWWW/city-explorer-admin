@@ -73,38 +73,40 @@ include('beacon.php');
 							<input id="val_pass" name="inp_pass" type="password" value="" placeholder="hasło">
 							<div id="submit" name="log_submit">OK</div>
 							<p id="rejestracja">zarejestruj się</p>
-							<input name="inp_pass2" id="val_pass2" type="password" placeholder="powtórz hasło" value="">
-							<input name="inp_email" id="val_email" type="text" placeholder="e-mail" value="<?php echo htmlspecialchars($email); ?>">							
-							<p class="reg_tekst">REGULAMIN</p> 
-							<div class="regulamin">
-								<ol>
-									<li>Przystąpienie do portalu City Explorer jest dobrowolne i nieobciążone żadnymi kosztami.</li>
-									<li>W celu rejestracji należy podać dane kontaktowe e-mail, podanie danych jest dobrowolne.</li>
-									<li>Właścicielem danych podanych przez użytkowników na portalu jest portal City Explorer, użytkownicy mają prawo w każdej chwili do poprawienia danych lub usunięcie konta.</li>
-									<li>Dodawać i usuwać beacony może tylko administrator systemu.</li>
-								</ol>	
-							</div>
-							<!--
-							<div class="dologowania">
-								<div class="chk_box_otoczka">
-									<input type="checkbox" name="mod_checkbox" value="" checked disabled>
-								</div>							
-								<p>użytkownik</p>
-							</div>
-							-->
-							<?php if($_SESSION['admin'] == "@yes@") { ?>
-							<div class="dologowania">
-								<div class="chk_box_otoczka">
-									<input type="checkbox" name="adm_checkbox" value="">
+							<div id="logowanie_wrap_rejestracja">
+								<input name="inp_pass2" id="val_pass2" type="password" placeholder="powtórz hasło" value="">
+								<input name="inp_email" id="val_email" type="text" placeholder="e-mail" value="<?php echo htmlspecialchars($email); ?>">							
+								<p class="reg_tekst">REGULAMIN</p> 
+								<div class="regulamin">
+									<ol>
+										<li>Przystąpienie do portalu City Explorer jest dobrowolne i nieobciążone żadnymi kosztami.</li>
+										<li>W celu rejestracji należy podać dane kontaktowe e-mail, podanie danych jest dobrowolne.</li>
+										<li>Właścicielem danych podanych przez użytkowników na portalu jest portal City Explorer, użytkownicy mają prawo w każdej chwili do poprawienia danych lub usunięcie konta.</li>
+										<li>Dodawać i usuwać beacony może tylko administrator systemu.</li>
+									</ol>	
 								</div>
-								<p>administrator</p>
-							</div>
-							<?php } ?>
-							<div class="dologowania space">
-								<div class="chk_box_otoczka">
-									<input id="chk_reg" type="checkbox" name="reg_checkbox_accept" value="">
-								</div>	
-								<p>akceptuję regulamin</p>
+								<!--
+								<div class="dologowania">
+									<div id="chk_box_otoczka0" class="chk_box_otoczka">
+										<input type="checkbox" name="mod_checkbox" value="" checked disabled>
+									</div>							
+									<p>użytkownik</p>
+								</div>
+								-->
+								<?php if($_SESSION['admin'] == "@yes@") { ?>
+								<div class="dologowania">
+									<div id="chk_box_otoczka1" class="chk_box_otoczka">
+										<input type="checkbox" name="adm_checkbox" value="">
+									</div>
+									<p>administrator</p>
+								</div>
+								<?php } ?>
+								<div class="dologowania space">
+									<div id="chk_box_otoczka2" class="chk_box_otoczka">
+										<input id="chk_reg" type="checkbox" name="reg_checkbox_accept" value="">
+									</div>	
+									<p>akceptuję regulamin</p>
+								</div>
 							</div>
 						</form>
 					</div>	

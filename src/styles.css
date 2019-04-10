@@ -248,7 +248,7 @@ header h1 .wstazka:after{
 }
 .login_tekst2,
 .login_tekst3{
-	top:20px;
+	top:16px;
 }
 .login_tekst2{
 	font-size: 12px;
@@ -330,7 +330,7 @@ header h1 .wstazka:after{
 	background:#CCC;
 	cursor: pointer;
 	display: inline-block;
-	z-index: 16;
+	z-index: 20;
 	font-family: Cambria;
 	font-size:16px;
 	text-align: center;
@@ -611,7 +611,7 @@ nav ul li a:hover
 }
 #add_materialy_dodaj input[type="text"],
 #submit_dodaj{
-	width: 70%;
+	width: 80%;
 }
 #add_materialy_edytuj,
 #add_matierialy_usun{
@@ -693,7 +693,9 @@ nav ul li a:hover
 	line-height: 60px;
 	overflow: hidden;
 }
-.end{
+.thead.end, 
+.thead0.end,
+.thead1.end{
 	height: 60px;
 	width: 40px;
 }
@@ -821,12 +823,20 @@ p.footer_opis{
 @media only screen and (max-width: 1300px){
 	p.footer_opis{font-size: 20px; margin-bottom: 20px;}
 	footer{padding: 0 3em;}
-	.add_materialy{width:550px;}
+	.add_materialy{width:400px;}
+	.thead, .thead0, .thead1{width: 140px; font-size: 13px;}
+}
+@media only screen and (max-width: 1200px){
+	.thead, .thead0, .thead1{width: 120px; font-size: 12px;}
+}
+@media only screen and (max-width: 1100px){
+	.thead, .thead0, .thead1{width: 118px; font-size: 12px;}
 }
 @media only screen and (max-width: 900px){
 	p.footer_opis{font-size: 18px; margin-bottom: 20px;}
 	footer{padding: 0 2em;}
 	.add_materialy{width:350px;}
+	.thead, .thead0, .thead1{width: 116px; font-size: 12px;}
 }
 ul.footer_opis_3{
 	margin: 40px 20px 30px 20px;
