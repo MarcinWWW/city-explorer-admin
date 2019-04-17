@@ -145,11 +145,13 @@ function checkForm(){
 		else if(l_or_r =="reg"){
 			//console.log("inRegEmail.value.indexOf(\"@\") = " + inRegEmail.value.indexOf("@") + "\ninRegEmail.value.lastIndexOf(\".\") = " + inRegEmail.value.lastIndexOf("."));
 			//console.log("inRegEmail.value.lastIndexOf(\".\") > inRegEmail.value.indexOf(\"@\") + 1 = " + inRegEmail.value.lastIndexOf(".") + " > " + (inRegEmail.value.indexOf("@") + 1));		
-			if(admCheckBox.checked){
+			if(typeof(admCheckBox) != null && typeof(admCheckBox) != "undefined"){
+				if(admCheckBox.checked){
 				att_action.value = "register_admin.php";
 				f.setAttributeNode(att_action);
 				f.submit();
 				console.log("ready and reg adm");
+				}
 			}
 			else{
 				att_action.value = "register_user.php";

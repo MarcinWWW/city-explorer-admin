@@ -1,5 +1,10 @@
 <?php
 session_start();
+if(strpos($_SERVER[REQUEST_URI], "/?register=") > 0){
+	$tokenPos = strpos($_SERVER[REQUEST_URI], "/?register=") + 11;
+	$uri = $_SERVER[REQUEST_URI];
+	$token = substr($_SERVER[REQUEST_URI], $tokenPos, strlen($uri));
+}
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	// form validation
 	$login = $pass = $pass2 = $email = "";
@@ -26,17 +31,7 @@ include('beacon.php');
 	<script src="scripts\during_failed_login.js"></script>
 </head>
 <body>
-	<?php if($_SESSION['username'] == "@nouser@" && $_SESSION['loginsuccess'] == "@no@"){ ?>
-		<div id="center_failed_login">
-			<div id="failed_login">
-				<div id="komunikat_log" class="center">
-				<div class="krzyzyk" onclick="hide_log(200,700,'0.5s')">X</div>
-					<p>Błędne hasło lub login<br>Spróbuj zalogować się ponownie</p>
-				</div>
-			</div>
-		</div>
-		<script>during_failed_login();</script>
-	<?php } ?>
+	<?php include('banner.php'); ?>
 	<article id="art">
 		<header>
 			<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@") { ?>
@@ -263,7 +258,6 @@ include('beacon.php');
 					echo "<div class='thead'>punktacja</div>";
 					echo "</div>";
 					$ogl = 1;
-					/*
 					foreach($_SESSION['top20'] as $key => $value)
 					{
 						$ogl++;
@@ -278,37 +272,6 @@ include('beacon.php');
 			
 						echo "</div></a>";
 					}
-					*/
-						echo "<a href='#'><div class='rank0'>";
-						echo "<div class='thead0'>1</div>";
-						echo "<div class='thead0'>Marek21</div>";
-						echo "<div class='thead0'>320</div>";	
-						echo "</div></a>";
-						
-						echo "<a href='#'><div class='rank1'>";
-						echo "<div class='thead0'>2</div>";
-						echo "<div class='thead0'>DonaAldona</div>";
-						echo "<div class='thead0'>250</div>";	
-						echo "</div></a>";
-						
-						echo "<a href='#'><div class='rank0'>";
-						echo "<div class='thead0'>3</div>";
-						echo "<div class='thead0'>xoxotiri93</div>";
-						echo "<div class='thead0'>198</div>";	
-						echo "</div></a>";
-						
-						echo "<a href='#'><div class='rank1'>";
-						echo "<div class='thead0'>4</div>";
-						echo "<div class='thead0'>akademik10</div>";
-						echo "<div class='thead0'>16</div>";	
-						echo "</div></a>";
-						
-						echo "<a href='#'><div class='rank0'>";
-						echo "<div class='thead0'>5</div>";
-						echo "<div class='thead0'>Marta2019</div>";
-						echo "<div class='thead0'>3</div>";
-						echo "</div></a>";
-						
 					echo "</div>";				
 				?>
 			</div>
@@ -326,20 +289,13 @@ include('beacon.php');
 			</div>
 			<div class="podzial">
 				<p class="footer_opis">5 najlepszych graczy</p>
-				<ul>
-					<li>Marek21</li>
-					<li>DonaAldona</li>
-					<li>xoxotiri93</li>
-					<li>akademik10</li>
-					<li>Marta2019</li>
-				</ul>
 				<?php
-					#echo "<ul>";
-					#	foreach($_SESSION['top5'] as $key => $value)
-					#	{
-					#		echo "<li>".$key."<span>".$value."</span></li>";				
-					#	}
-					#echo "</ul>";
+					echo "<ul>";
+						foreach($_SESSION['top5'] as $key => $value)
+						{
+							echo "<li>".$key."<span>".$value."</span></li>";				
+						}
+					echo "</ul>";
 				?>				
 			</div>
 			<div class="podzial ostatni">
@@ -362,9 +318,12 @@ include('beacon.php');
 		<script src="scripts\walidacja_content.js"></script>	
 	<?php } //else echo "USERNAME = " . $_SESSION['username'];?>
 	<?php
-		if($_SESSION['username'] == "@nouser@" && $_SESSION['loginsuccess'] == "@no@"){
+		if(($_SESSION['username'] == "@nouser@" && $_SESSION['loginsuccess'] == "@no@") || $token == "success" || strlen($_SESSION['register']) > 2 ){ 
 			echo "<script>hide_log(3000,4000,'1s');</script>";
 			$_SESSION['loginsuccess'] = "";
+			if(isset($_SESSION['register'])){
+				unset($_SESSION['register']);
+			}
 		}
 	?>	
 </body>

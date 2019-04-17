@@ -6,12 +6,16 @@
 	$login = $_POST['inp_login'];
 	$pass = $_POST['inp_pass'];
 	$email = $_POST['inp_email'];
+	if(isset($_SESSION['register'])){
+		unset($_SESSION['register']);
+	}
 	
 	//session_write_close();
 	$authorityData = array("id" => null, "username" => $login, "authority" => $auth);
 	//$authorityDataJson = json_encode($authorityData);
 	$userData = array("id" => null, "username" => $login, "password" => $pass, "name" => $login, "email" => $email, "enabled" => false, "score" => 0, "authority" => $authorityData);
 	$userDataJson = json_encode($userData);
+	$userDataJsonDecoded = json_decode($userDataJson,true);
 	
 	$ch = curl_init();
 	
@@ -36,17 +40,7 @@
 	//curl_setopt($ch,CURLOPT_CAINFO,"C:\\xampp\php\cacert.pem");
 	
 	$user = curl_exec($ch);
-	//$result = json_decode($result, true);
-	/*
-	curl_setopt($ch,CURLOPT_POST,false);
-	curl_setopt($ch,CURLOPT_HTTPGET,true);
-	curl_setopt($ch,CURLOPT_HEADER,true);
-	curl_setopt($ch,CURLINFO_HEADER_OUT,true);
-	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,180);
-	$locationHeader = curl_exec($ch);
-	$locationHeaderOut = curl_getinfo($ch,CURLINFO_HEADER_OUT);
-	*/
-
+	$userJson = json_decode($user,true);
 	$userCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 	
 	if(curl_errno($ch)){
@@ -55,25 +49,32 @@
 	
 	curl_close($ch);
 
-	
+	/*
 	echo "<br><br>";
 	echo "<br><br>LOG: <br>" . $userData;
 	echo "<br><br>LOG: <br><pre>";
-	print_r($userDataJson);
+	print_r($userDataJsonDecoded);
 	echo "</pre>";
 	echo "<br><br>LOG HEADER: <br>" . $user; 
-	echo "<br><br>LOG HEADER OUT: <br>" . $locationHeaderOut; 
-	echo "<br><br>LOG HEADER CODE: <br>" . $userCode; 
+	echo "<br><br>LOG HEADER OUT: <br><pre>";
+	print_r($userJson); 
+	echo "</pre><br><br>LOG HEADER CODE: <br>" . $userCode; 
+	
+	echo "<br><br>userJson['status']: <br>" . $userJson['status']; 
+	echo "<br><br>strpos(userJson['status'], \"already exists\"): <br>" . strpos($userJson['status'], "already exists"); 
+	*/
 	
 	//$_SESSION['beacon'] = $dataJson;
 	//header('location: index.php');
 	
 	if($userCode == '200'){
+		$_SESSION['register'] = '200';
 		include("index.php");
-		//include("login.php");
 	}
 	else{
-		echo "<script>hide_log(3000,4000,'1s');</script>";
+		if(strpos($userJson['status'], "already exists") > -1) { $_SESSION['register'] = 'login'; }
+		elseif(strpos($userJson['status'], "email is used") > -1) { $_SESSION['register'] = 'email'; }
+		else { $_SESSION['register'] = '400'; }
 		include("index.php");
 	}
 ?>
