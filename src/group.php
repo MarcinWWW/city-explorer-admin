@@ -13,7 +13,6 @@
 	curl_setopt($ch,CURLOPT_HEADER,false);
 	curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);
 	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-
 	//curl_setopt($ch,CURLOPT_CAINFO,"https://cityexplorer.000webhostapp.com/cert/cacert.pem");
 	//curl_setopt($ch,CURLOPT_CAINFO,"C:\\xampp\php\cacert.pem");
 
@@ -34,6 +33,8 @@
 	echo "<datalist id='grupy'>";
 	foreach($groupJson as $key => $value){
 		//echo "key = > value " . $key . " => " . $value;
+		$_SESSION[group][$key]['name'] = $groupJson[$key]['name'];
+		$_SESSION[group][$key]['id'] = $groupJson[$key]['id'];
 		echo "<option value='" . $groupJson[$key]['name'] . "'>";
 	}
 	echo "</datalist>";

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(strpos($_SERVER[REQUEST_URI], "/?register=") > 0){
+if(strpos($_SERVER[REQUEST_URI], "/?register=") > -1){
 	$tokenPos = strpos($_SERVER[REQUEST_URI], "/?register=") + 11;
 	$uri = $_SERVER[REQUEST_URI];
 	$token = substr($_SERVER[REQUEST_URI], $tokenPos, strlen($uri));
@@ -33,6 +33,12 @@ include('beacon.php');
 <body>
 	<?php include('banner.php'); ?>
 	<article id="art">
+	<?php 	
+		//echo '<br>$_SERVER[REQUEST_URI] = ' . $_SERVER[REQUEST_URI];
+		//echo '<br>$tokenPos = ' . $tokenPos;
+		//echo '<br>$uri ' . $uri;
+		//echo '<br>$token ' . $token;
+	?>
 		<header>
 			<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@") { ?>
 				<form id="logout" action="logout.php" method="post">
@@ -80,18 +86,10 @@ include('beacon.php');
 										<li>Dodawać i usuwać beacony może tylko administrator systemu.</li>
 									</ol>	
 								</div>
-								<!--
-								<div class="dologowania">
-									<div id="chk_box_otoczka0" class="chk_box_otoczka">
-										<input type="checkbox" name="mod_checkbox" value="" checked disabled>
-									</div>							
-									<p>użytkownik</p>
-								</div>
-								-->
 								<?php if($_SESSION['admin'] == "@yes@") { ?>
 								<div class="dologowania">
 									<div id="chk_box_otoczka1" class="chk_box_otoczka">
-										<input type="checkbox" name="adm_checkbox" value="">
+										<input id="adm_checkbox" type="checkbox" name="adm_checkbox" value="">
 									</div>
 									<p>administrator</p>
 								</div>
@@ -185,7 +183,7 @@ include('beacon.php');
 							<input id="beacon_grupa" list="grupy" type="text" name="beacon_grupa" placeholder="grupa beaconów" value="<?php echo htmlspecialchars($beacon_grupa);?>">
 							<datalist id="grupy">
 							<?php
-								//include("group.php");
+								include("group.php");
 							?>
 							</datalist>
 							<input id="beacon_location" type="text" name="beacon_location" placeholder="lokalizacja" value="<?php echo htmlspecialchars($beacon_location);?>">
@@ -217,8 +215,8 @@ include('beacon.php');
 					echo "<div class='thead'>ID minor</div>";
 					echo "<div class='thead'>beacon</div>";
 					echo "<div class='thead'>grupa</div>";
-					echo "<div class='thead'>miasto</div>";
-					echo "<div class='thead'>miejsce</div>";
+					echo "<div class='thead'>lokalizacja</div>";
+					echo "<div class='thead'>adres</div>";
 					if($_SESSION['admin'] == "@yes@")
 						echo "<div class='thead end'></div>";
 					//echo "<div class='thead'>GPS</div>";

@@ -69,12 +69,12 @@
 	
 	if($userCode == '200'){
 		$_SESSION['register'] = '200';
-		include("index.php");
+		header("location: https://cityexplorer.000webhostapp.com");
 	}
 	else{
 		if(strpos($userJson['status'], "already exists") > -1) { $_SESSION['register'] = 'login'; }
 		elseif(strpos($userJson['status'], "email is used") > -1) { $_SESSION['register'] = 'email'; }
 		else { $_SESSION['register'] = '400'; }
-		include("index.php");
+		header("location: https://cityexplorer.000webhostapp.com");
 	}
 ?>

@@ -8,9 +8,19 @@
 	
 	session_write_close();
 	
+	$groupID = null;
+	$groupName = $_POST['beacon_grupa'];
+	
+	foreach($_SESSION['group'] as $key => $value){
+		if(strtolower($_SESSION['group'][$key]['name']) == strtolower($_POST['beacon_grupa'])){
+			$groupID = $_SESSION['group'][$key]['id'];
+			$groupName = $_SESSION['group'][$key]['name'];
+		}
+	}
+	
 	$typeData = array("id" => null, "name" => $_POST['beacon_nazwa']);
 	$locationData = array("id" => null, "name" => $_POST['beacon_location'], "coordinaes" => "nieważne", "address" => $_POST['beacon_address']);
-	$groupData = array("id" => null, "name" => $_POST['beacon_grupa']);
+	$groupData = array("id" => $groupID, "name" => $groupName);
 	$beaconData = array("id" => null, "uuid" => "B9407F30-F5F8-466E-AFF9-25556B57FE6D", "major" => $_POST['beacon_id'], "minor" => $_POST['beacon_id_minor'], "type" => $typeData, "location" => $locationData, "groups" => $groupData);
 	$beaconDataJson = json_encode($beaconData);
 
@@ -77,6 +87,6 @@
 	//$_SESSION['beacon'] = $dataJson;
 	unset($_SESSION['wybierz_obraz']);
 	//$_SESSION['refresh'] = "@yes@";
-	include("index.php");
-	//header('location: index.php');
+	//include("index.php");
+	header("location: https://cityexplorer.000webhostapp.com");
 ?>

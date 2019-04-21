@@ -41,15 +41,17 @@ $header = curl_exec($ch);
 $headerCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 //$adminJson = json_decode($admin, true);
 
-/*
+
 echo "<br>token = " . $token;
+echo "<br>uri = " . $uri;
+echo "<br>tokenPos = " . $tokenPos;
 echo "<br>HEADER: " . $header;
 echo "<br><br>";
 echo "<br>HEADER_OUT: " . $headerOut;
 echo "<br><br>";
 echo "<br>HEADER_CODE: " . $headerCode;
 echo "<br><br>";
-*/
-include($_SERVER['DOCUMENT_ROOT'] . "/index.php");
+
+//include($_SERVER['DOCUMENT_ROOT'] . "/index.php");
 //header("location: https://cityexplorer.000webhostapp.com/");
 ?>
