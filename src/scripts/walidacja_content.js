@@ -48,22 +48,37 @@
 	var _bAddress = document.getElementById("beacon_address");
 	//var _bCoord = document.getElementById("beacon_coordinates");
 	//dodawanie arr
-	var _arr = [_bID, _bID_minor, _bNazwa, _bGrupa, _bLocation, _bAddress];
+	var _arr = new Array(_bID, _bID_minor, _bNazwa, _bGrupa, _bLocation, _bAddress);
 	//dodawanie submit
-	var _sbmt_dodaj = document.getElementById("submit_dodaj");
-
-
-	_sbmt_dodaj.addEventListener('click', validateDodaj, false);
+	sbmt_dodaj.addEventListener('click', validateDodaj, false);
 
 	function validateDodaj(){
-		var ready = true;
+		let ready = true;
+		console.log("ValidateDodaj()");
 		for(var i=0; i<_arr.length; i++){
 			if(_arr[i].value == ''){
+				console.log("_arr[" + i + "].value = " + _arr[i].value);
 				_arr[i].style.border = "2px solid #900";
 				_arr[i].style.padding = "8px";
 				ready = false;
 			}
+		}		
+		if(ValidateId(_bID.value) != true){
+			console.log("ValidateId()");
+			_bID.style.border = "2px solid #900";
+			_bID.style.padding = "8px";
+			_bID.style.color = "#900";
+			_bID.value = "tylko cyfry";
+			ready = false;
 		}
+		if(ValidateId(_bID_minor.value) != true){
+			console.log("ValidateId()");
+			_bID_minor.style.border = "2px solid #900";
+			_bID_minor.style.padding = "8px";
+			_bID_minor.value = "tylko cyfry";
+			ready = false;
+		}
+		
 		_bID.addEventListener('focus', setBack, false);		
 		_bID_minor.addEventListener('focus', setBack, false);		
 		_bNazwa.addEventListener('focus', setBack, false);
@@ -100,3 +115,7 @@
 			// nic
 		}
 	}
+
+function ValidateId(id){
+	return (/^[0-9]+$/.test(id));
+}

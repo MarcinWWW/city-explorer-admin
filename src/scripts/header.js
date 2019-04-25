@@ -63,7 +63,7 @@ function open_login(){
 		}
 	}
 	else{
-		if((login.innerHTML).indexOf("rejestracja konta administratora") > 0){
+		if((login.innerHTML).indexOf("Rejestracja nowego konta") > -1){
 			colorBoxes(log_wrap, 50, 400);
 			if(log_wrap.style.height === '0px'){
 				//console.log(rej_wrap.style.height); 
@@ -99,8 +99,10 @@ function colorBoxes(obj, margin1, margin2){
 	var colorA = getColor(color1, color2, margin1);
 	var colorB = getColor(color1, color2, margin2);
 	var gradient = "linear-gradient(to left, " + colorA.toString() + " 0%, " + colorB.toString() + " 100%)";
-	obj.style.background = gradient;
-	console.log("obj = " + obj.getAttribute("id"));
+	if(typeof(obj) != null && typeof(obj) != 'undefined'){
+		obj.style.background = gradient;
+		//console.log("obj = " + obj.getAttribute("id"));
+	}
 }
 function closeLogin(obj){
 	var ol = logowanie.getElementsByTagName('ol')[0];

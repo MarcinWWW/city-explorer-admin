@@ -85,8 +85,14 @@
 	echo "<br><br>"; 
 	*/
 	//$_SESSION['beacon'] = $dataJson;
+	unset($_POST['beacon_id']);
+	unset($_POST['beacon_id_minor']);
+	unset($_POST['beacon_nazwa']);
+	unset($groupName);
+	unset($_POST['beacon_grupa']);
+	unset($_POST['beacon_address']);
 	unset($_SESSION['wybierz_obraz']);
 	//$_SESSION['refresh'] = "@yes@";
-	//include("index.php");
-	header("location: https://cityexplorer.000webhostapp.com");
+	include("index.php");
+	//header("location: https://cityexplorer.000webhostapp.com");
 ?>

@@ -1,6 +1,6 @@
 package Tests.TestCases;
 
-import static org.testng.Assert.fail;
+import static org.testng.Assert.assertEquals;
 
 import java.util.Random;
 
@@ -9,13 +9,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import Tests.PageObjects.FrontPage;
 
 
-public class addNewBeaconWithSameIDsCase {
+public class invalidRegistrationUserCase {
 	
 	WebDriver driver;
 	FrontPage objFront;
@@ -29,33 +30,24 @@ public class addNewBeaconWithSameIDsCase {
 	
 	Random ran = new Random();
 	int nxt = ran.nextInt(99999);
-	int id = ran.nextInt(999);
 	
 	@Test
-	public void newBeaconWithSameIDs() throws InterruptedException {
+	public void invalidUserRegistrationWithSameEmail() throws InterruptedException {
 		objFront = new FrontPage(driver);
-		objFront.setLogin("admin");
-		objFront.setPassword("admin");
-		objFront.login();
-		objFront.addFile("akcja testowa");
-		objFront.setMajorID(1);
-		objFront.setMinorID(1);
-		objFront.setBcnName("beacon nr." +nxt);
-		objFront.setBcnGrp("grupa Test");
-		objFront.setBcnLoc("miasto Test");
-		objFront.setBcnAddr("ulica Test");
-		objFront.newBeacon();
-		objFront.bcnList();
-		Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'"+objFront.getBcnName()+"')]")).getText(), objFront.getBcnName());
-		Assert.fail();
+		objFront.createAcc(); 
+		objFront.setNewLogin("tester"+nxt);
+		objFront.setNewPassword("pw");
+		objFront.setNewEmail("dan.gruchociak@gmail.com");
+		objFront.saveNewAccount();
+		//System.out.println(driver.findElement(By.xpath("//p[@id='komunikat_tresc']")).getText());
+		assertEquals(driver.findElement(By.xpath("//p[@id='komunikat_tresc']")).getText(), "Rejestracja nie powiod³a siê.\n" + 
+				"Podany E-MAIL ju¿ istnieje w systemie");
 	}
-
+	
 	@AfterMethod
 	public void closeDriver() throws InterruptedException {
 		objFront = new FrontPage(driver);
 		Thread.sleep(1000);
-		objFront.logout();
-        //System.out.println("Test przeprowadzony prawid³owo, Beacon zosta³ dodany.");
         driver.quit();
     }
 }

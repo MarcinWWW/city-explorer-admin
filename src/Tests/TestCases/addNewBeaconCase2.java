@@ -1,5 +1,7 @@
 package Tests.TestCases;
 
+import java.util.Random;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,7 +16,7 @@ import org.testng.annotations.Test;
 import Tests.PageObjects.FrontPage;
 
 
-public class addNewBeaconTest2 {
+public class addNewBeaconCase2 {
 	
 	WebDriver driver;
 	FrontPage objFront;
@@ -26,15 +28,19 @@ public class addNewBeaconTest2 {
 		driver.get("https://cityexplorer.000webhostapp.com/");
 	}
 	
+	Random ran = new Random();
+	int nxt = ran.nextInt(99999);
+	int id = ran.nextInt(999);
+	
 	@Test
 	public void newBeaconTest() {
 		objFront = new FrontPage(driver);
-		objFront.setLogin("danadmin");
+		objFront.setLogin("admin");
 		objFront.setPassword("admin");
 		objFront.login();
-		objFront.setID("1337");
-		objFront.setMinorId("2137");
-		objFront.setBcnName("nazwa Test");
+		objFront.setMajorID(id);
+		objFront.setMinorID(id);
+		objFront.setBcnName("beacon nr." +nxt);
 		objFront.setBcnGrp("grupa Test");
 		objFront.setBcnLoc("miasto Test");
 		objFront.setBcnAddr("ulica Test");

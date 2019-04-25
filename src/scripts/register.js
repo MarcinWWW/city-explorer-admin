@@ -62,7 +62,7 @@ function checkLog(){
 function checkForm(){
 	var l_or_r;
 	var lg = document.getElementById("logowanie_wrap");
-	var ready = true;
+	let ready = true;
 	(parseInt(lg.style.height) < 191) ? l_or_r = "log" : l_or_r = "reg";
 	//console.log("l_or_r = " + l_or_r);
 	//console.log(parseInt(lg.style.height))
@@ -79,6 +79,7 @@ function checkForm(){
 		}
 	}
 	else if(l_or_r == "reg"){
+		console.log("reg");
 		if(!inCheckBox.checked){
 			divOtoczka[0].style.background = "#FF0000";
 			ready = false;
@@ -88,7 +89,17 @@ function checkForm(){
 			inRegLogin.style.padding = "8px";
 			ready = false;
 		}
+		if(ValidateLogin(inRegLogin.value)!= true){
+			inRegLogin.style.border = "2px solid #900";
+			inRegLogin.style.padding = "8px";
+			ready = false;
+		}
 		if(inRegPass.value == ""){
+			inRegPass.style.border = "2px solid #900";
+			inRegPass.style.padding = "8px";
+			ready = false;
+		}
+		if(ValidatePass(inRegPass.value)!= true){
 			inRegPass.style.border = "2px solid #900";
 			inRegPass.style.padding = "8px";
 			ready = false;
@@ -105,6 +116,12 @@ function checkForm(){
 		let y = parseInt(inRegEmail.value.indexOf("@")) + 1;
 		
 		if(inRegEmail.value == "" || inRegEmail.value.indexOf("@")<1 || x<y){
+			inRegEmail.style.border = "2px solid #900";
+			inRegEmail.style.padding = "8px";
+			ready = false;
+		}
+		
+		if(ValidateEmail(inRegEmail.value)!= true){
 			inRegEmail.style.border = "2px solid #900";
 			inRegEmail.style.padding = "8px";
 			ready = false;
@@ -129,13 +146,21 @@ function checkForm(){
 		else if(l_or_r =="reg"){
 			//console.log("inRegEmail.value.indexOf(\"@\") = " + inRegEmail.value.indexOf("@") + "\ninRegEmail.value.lastIndexOf(\".\") = " + inRegEmail.value.lastIndexOf("."));
 			//console.log("inRegEmail.value.lastIndexOf(\".\") > inRegEmail.value.indexOf(\"@\") + 1 = " + inRegEmail.value.lastIndexOf(".") + " > " + (inRegEmail.value.indexOf("@") + 1));		
-			let admCheckBox = document.getElementById("adm_checkbox");
-			if(typeof(admCheckBox) != null && typeof(admCheckBox) != "undefined"){
-				if(admCheckBox.checked){
-				att_action.value = "register_admin.php";
-				f.setAttributeNode(att_action);
-				f.submit();
-				console.log("ready and reg adm");
+			if(document.getElementById("adm_checkbox")!=null && document.getElementById("adm_checkbox")!='undefined'){
+				let admCheckBox = document.getElementById("adm_checkbox");
+				if(typeof(admCheckBox) != null && typeof(admCheckBox) != "undefined"){
+					if(admCheckBox.checked){
+					att_action.value = "register_admin.php";
+					f.setAttributeNode(att_action);
+					f.submit();
+					console.log("ready and reg adm");
+					}
+					else{
+					att_action.value = "register_user.php";
+					f.setAttributeNode(att_action);
+					f.submit();
+					console.log("ready and reg usr");
+					}
 				}
 			}
 			else{
@@ -156,6 +181,7 @@ function setBack(){
 	if(parseInt(padd) == 8 || this.style.padding == "8px"){
 		this.style.padding = "10px";
 		this.style.border = "none";
+		this.style.color = "#000";
 		if(this.getAttribute("name") != "inp_email") 
 			this.value = "";
 	}
@@ -173,7 +199,7 @@ function resetForm(){
 	//divOtoczka[2].style.background = "transparent";
 	inRegLogin.style.border = "none";
 	inRegLogin.style.padding = "10px";
-	inRegLogin.value = "";
+	//inRegLogin.value = "";
 	inRegPass.style.border = "none";
 	inRegPass.style.padding = "10px";
 	inRegPass.value = "";
@@ -182,9 +208,15 @@ function resetForm(){
 	inRegPass2.value = "";
 	inRegEmail.style.border = "none";
 	inRegEmail.style.padding = "10px";	
-	inRegEmail.value = "";
+	//inRegEmail.value = "";
 	inCheckBox.checked = false;
 }
 function ValidateEmail(mail){
-return (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(myForm.emailAddr.value));
+	return (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(mail));
+}
+function ValidateLogin(login){
+	return (/(?=^.{1,20}$)/.test(login));
+}
+function ValidatePass(pass){
+	return (/(?=^.{8,20}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(pass));
 }

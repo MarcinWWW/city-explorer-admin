@@ -1,5 +1,6 @@
 package Tests.PageObjects;
 
+import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,15 +8,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.Test;
 
 public class FrontPage {
 
 	@FindBy (xpath="//input[@id='inp_log1']")
 	private WebElement usrLogin;
-	
-	@FindBy (xpath="//input[@placeholder='ID minor']")
-	private WebElement minorID;
 	
 	@FindBy(xpath="//input[@id='inp_log2']")
 	private WebElement usrPasswd;
@@ -63,7 +60,11 @@ public class FrontPage {
 	private WebElement logoutBtn;
 	
 	@FindBy(xpath="//input[@id='beacon_id']")
-	private WebElement beaconID;
+	private WebElement beaconMajorID;
+	
+	@FindBy(xpath="//input[@id='beacon_id_minor']")
+	private WebElement beaconMinorID;
+	
 	
 	@FindBy(xpath="//input[@id='beacon_nazwa']")
 	private WebElement beaconName;
@@ -109,15 +110,27 @@ public class FrontPage {
 	public void setPassword(String userPasswd) {
 		usrPasswd.sendKeys(userPasswd);
 	}
-	String bcnId;
+	
+/*	
 	public void setID(String id) {
 		beaconID.sendKeys(id);
 		bcnId=id;
+	}*/
+	
+	String bcnId;
+	public void setMajorID(int id) {
+		beaconMajorID.sendKeys(Integer.toString(id));
+		bcnId=Integer.toString(id);
 	}
 	
-	public String getID() {
-		return bcnId;
+	public void setMinorID(int id) {
+		beaconMinorID.sendKeys(Integer.toString(id));
 	}
+	
+	/*public void setMinorID(String minoID) {
+		beaconMinorID.sendKeys(minoID);
+	}*/
+	
 	String bcnNm;
 	public void setBcnName(String bcnName) {
 		beaconName.sendKeys(bcnName);
@@ -143,11 +156,6 @@ public class FrontPage {
 	public void setBcnCords(String bcnCords) {
 		beaconCoords.sendKeys(bcnCords);
 	}
-	
-	public void setMinorId(String minoID) {
-		minorID.sendKeys(minoID);
-	}
-	
 	
 	public void login() {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -176,20 +184,31 @@ public class FrontPage {
 	
 	public void createAcc() throws InterruptedException {
 	WebDriverWait wait = new WebDriverWait(driver, 10);
-	Thread.sleep(1000);
 	wait.until(ExpectedConditions.elementToBeClickable(logOrRegisterBtn)).click();
 	wait.until(ExpectedConditions.elementToBeClickable(registerBtn)).click();
 	wait.until(ExpectedConditions.elementToBeClickable(regulaminChckBox)).click();
 	}
 	
+	public void disableStatut() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		if(regulaminChckBox.isEnabled()) {
+			wait.until(ExpectedConditions.elementToBeClickable(regulaminChckBox)).click();
+		}
+		else {
+			System.out.println("checkbox odznaczony");
+			Assert.fail();
+		}
+	}
 	
 	public void setNewLogin(String login) {
-		regLogin.sendKeys(login);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.elementToBeClickable(regLogin)).sendKeys(login);
 	}
 	
 	public void setNewPassword(String pw) {
-		regPasswd.sendKeys(pw);
-		repPasswd.sendKeys(pw);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.elementToBeClickable(regPasswd)).sendKeys(pw);
+		wait.until(ExpectedConditions.elementToBeClickable(repPasswd)).sendKeys(pw);
 	}
 	
 	public void setNewEmail(String email) {

@@ -17,6 +17,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
 	$login = $_SESSION['username'];
+	$beacon_id = $_POST['beacon_id'];
+	$beacon_id_minor = $_POST['beacon_id_minor'];
+	$beacon_nazwa = $_POST['beacon_nazwa'];
+	$beacon_grupa = $groupName;
+	$beacon_location = $_POST['beacon_grupa'];
+	$beacon_address = $_POST['beacon_address'];
 	include('admin.php');
 }
 include('beacon.php');
@@ -60,7 +66,7 @@ include('beacon.php');
 						<?php if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@yes@"){ ?>
 							<p class="login_tekst3">Witaj <?php echo $login; ?></p>
 							<br>
-							<p class="login_tekst2">rejestracja konta administratora</p>
+							<p class="login_tekst2">Rejestracja nowego konta</p>
 						<?php } elseif($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@no@"){ ?>
 							<p class="login_tekst3">Witaj <?php echo $login; ?></p> 
 						<?php } else{ ?>
@@ -82,8 +88,12 @@ include('beacon.php');
 									<ol>
 										<li>Przystąpienie do portalu City Explorer jest dobrowolne i nieobciążone żadnymi kosztami.</li>
 										<li>W celu rejestracji należy podać dane kontaktowe e-mail, podanie danych jest dobrowolne.</li>
-										<li>Właścicielem danych podanych przez użytkowników na portalu jest portal City Explorer, użytkownicy mają prawo w każdej chwili do poprawienia danych lub usunięcie konta.</li>
+										<li>Należy podać login od 1-20 znaków; hasło 8-20 znaków w tym min. 1 duża litera, min. 1 mała litera, min. 1 cyfra; adres e-mail, na który zostanie wysłane potwierdzenie rejestracji.</li>
 										<li>Dodawać i usuwać beacony może tylko administrator systemu.</li>
+										<li>Konto administratora może założyć tylko istniejący już w systemie administrator.</li>
+										<li>Konto użytkownika może założyć każdy zainteresowany.</li>
+										<li>Właścicielem danych podanych przez użytkowników na portalu jest portal City Explorer, użytkownicy mają prawo w każdej chwili do poprawienia danych lub usunięcie konta.</li>
+										
 									</ol>	
 								</div>
 								<?php if($_SESSION['admin'] == "@yes@") { ?>
@@ -165,6 +175,7 @@ include('beacon.php');
 								*/
 							}								
 						?>
+						<!--
 						<form id="add_materialy_akcja" action="" method="post">
 							<input id="akcja_name" type="text" name="akcja_name" placeholder="nazwa akcji">
 							<select id="akcja_select">
@@ -174,6 +185,7 @@ include('beacon.php');
 								<option value="akcja 4">akcja 4</option>
 							</select>
 						</form>
+						-->
 					</div>
 					<div class="add_materialy">
 						<form id="add_materialy_dodaj" method="post">
@@ -202,12 +214,9 @@ include('beacon.php');
 			</div>
 			<div id="places">
 				<?php 
-					echo "<script>console.log('beacony ściągnięte z serwera')</script>";
 					echo "<div class='cont'>";
 					echo "<div class='search'>";
 					echo "<p>standardowe UUID beaconów w City Explorer = <strong><i>B9407F30-F5F8-466E-AFF9-25556B57FE6D</i></strong></p>"; 
-					#echo "<input type='text' placeholder='szukaj miejsca z beaconami..'>" ;
-					#echo "<input class='sub' type='submit' value='szukaj'>";
 					echo "</div>";
 					echo "<div class='wpis'>";
 					echo "<div class='thead none'>ID</div>";
@@ -219,7 +228,6 @@ include('beacon.php');
 					echo "<div class='thead'>adres</div>";
 					if($_SESSION['admin'] == "@yes@")
 						echo "<div class='thead end'></div>";
-					//echo "<div class='thead'>GPS</div>";
 					echo "</div>";
 					$ogl = 0;
 					$key = 0;
@@ -239,9 +247,7 @@ include('beacon.php');
 						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['name']."</div>";
 						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['address']."</div>";
 						if($_SESSION['admin'] == "@yes@")
-							echo "<div class='".$klasa." end'><img class='iksUsun' alt='usuń beacon' src='img/iks.png' width='25' height='25'></div>";
-						//echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['coordinaes']."</div>";								
-			
+							echo "<div class='".$klasa." end'><img class='iksUsun' alt='usuń beacon' src='img/iks.png' width='25' height='25'></div>";						
 						echo "</div>";
 					}
 					echo "</div>";				

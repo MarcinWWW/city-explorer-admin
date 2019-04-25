@@ -1,21 +1,22 @@
 package Tests.TestCases;
 
-import static org.testng.Assert.fail;
-
 import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import Tests.PageObjects.FrontPage;
 
 
-public class addNewBeaconWithSameIDsCase {
+public class addNewBeaconUploadFileBeforeFillingDataCase {
 	
 	WebDriver driver;
 	FrontPage objFront;
@@ -32,24 +33,24 @@ public class addNewBeaconWithSameIDsCase {
 	int id = ran.nextInt(999);
 	
 	@Test
-	public void newBeaconWithSameIDs() throws InterruptedException {
+	public void newBeaconWithFileBeforeData() throws InterruptedException {
 		objFront = new FrontPage(driver);
 		objFront.setLogin("admin");
 		objFront.setPassword("admin");
 		objFront.login();
 		objFront.addFile("akcja testowa");
-		objFront.setMajorID(1);
-		objFront.setMinorID(1);
+		objFront.setMajorID(id);
+		objFront.setMinorID(id);
 		objFront.setBcnName("beacon nr." +nxt);
 		objFront.setBcnGrp("grupa Test");
 		objFront.setBcnLoc("miasto Test");
 		objFront.setBcnAddr("ulica Test");
+		Thread.sleep(1000);
 		objFront.newBeacon();
 		objFront.bcnList();
 		Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'"+objFront.getBcnName()+"')]")).getText(), objFront.getBcnName());
-		Assert.fail();
 	}
-
+	
 	@AfterMethod
 	public void closeDriver() throws InterruptedException {
 		objFront = new FrontPage(driver);

@@ -29,7 +29,7 @@ public class validLoginCase {
 	}
 	
 	@Test
-	public void correctUserData() {
+	public void correctUserDataLogin() {
 		objFront = new FrontPage(driver);
 		objFront.setLogin("admin");
 		objFront.setPassword("admin");
@@ -45,7 +45,6 @@ public class validLoginCase {
 		objFront = new FrontPage(driver);
 		Thread.sleep(1000);
 		objFront.logout();
-        System.out.println("Test przeprowadzony prawid³owo, logowanie oraz wylogowanie dzia³a.");
         driver.quit();
     }
 }

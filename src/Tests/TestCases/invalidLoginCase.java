@@ -27,12 +27,11 @@ public class invalidLoginCase {
 	}
 	
 	@Test
-	public void incorrectUserData() {
+	public void incorrectUserDataLogin() {
 		objFront = new FrontPage(driver);
-		objFront.setLogin("admin1");
+		objFront.setLogin("admin12");
 		objFront.setPassword("admin1");
 		objFront.login();
-		//System.out.println(driver.findElement(By.xpath("//div[@id='center_failed_login']//p[1]")).isDisplayed());
 		assertEquals(driver.findElement(By.xpath("//div[@id='center_failed_login']//p[1]")).isDisplayed(), true);
 	}
 	
@@ -41,7 +40,6 @@ public class invalidLoginCase {
 	public void closeDriver() throws InterruptedException {
 		objFront = new FrontPage(driver);
 		Thread.sleep(1000);
-        System.out.println("Test przeprowadzony prawid³owo, nie da siê zalogowaæ z nieprawid³owymi danymi");
         driver.quit();
     }
 }

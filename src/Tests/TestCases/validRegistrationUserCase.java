@@ -1,5 +1,10 @@
 package Tests.TestCases;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.Random;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -23,21 +28,27 @@ public class validRegistrationUserCase {
 		driver.get("https://cityexplorer.000webhostapp.com/");
 	}
 	
+	Random ran = new Random();
+	int nxt = ran.nextInt(99999);
+	
 	@Test
-	public void registerNewUser() throws InterruptedException {
+	public void validUserRegistration() throws InterruptedException {
 		objFront = new FrontPage(driver);
-		objFront.createAcc();
-		objFront.setNewLogin("tester");
+		objFront.createAcc(); 
+		objFront.setNewLogin("tester"+nxt);
 		objFront.setNewPassword("pw");
-		objFront.setNewEmail("email@gmail.com");
+		objFront.setNewEmail("automatmail"+nxt+"@cndps.com");
 		objFront.saveNewAccount();
+		//System.out.println(driver.findElement(By.xpath("//p[@id='komunikat_tresc']")).getText());
+		assertEquals(driver.findElement(By.xpath("//p[@id='komunikat_tresc']")).getText(), "Rejestracja zosta³a przeprowadzona\n" + 
+				"POMYŒLNIE\n" + 
+				"PotwierdŸ rejestracjê poprzez e-mail");
 	}
 	
 	@AfterMethod
 	public void closeDriver() throws InterruptedException {
 		objFront = new FrontPage(driver);
 		Thread.sleep(1000);
-        System.out.println("Test przeprowadzony prawid³owo, u¿ytkownik zarejestrowany");
         driver.quit();
     }
 }
