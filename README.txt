@@ -1,4 +1,5 @@
 ﻿PANEL ADMINISTRATORA - wersja MySQL
+https://cityexplorer.000webhostapp.com/
 
 v. 1.0.  
 v. 2.0. - wersja z pierwszej obrony
@@ -11,7 +12,9 @@ v. 2.6. - wersja MySQL
 
 technologie:
 PHP
+MySQL
 cURL
+Json
 HTML
 CSS
 JavaScript
