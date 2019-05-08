@@ -1,0 +1,160 @@
+CREATE DATABASE id7644712_newcity CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE id7644712_newcity CHARACTER SET utf8 COLLATE utf8_polish_ci;
+CREATE DATABASE id7644712_newcity CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+------------------------------------------------------------------------
+
+CREATE TABLE `beacon`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_group 	INT NOT NULL,
+name 		VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci'
+);
+
+INSERT INTO `beacon`(id_group, name) VALUES(1, "Ratusz");
+INSERT INTO `beacon`(id_group, name) VALUES(2, "Palmiarnia");
+INSERT INTO `beacon`(id_group, name) VALUES(3, "Fara");
+INSERT INTO `beacon`(id_group, name) VALUES(4, "Stary Browar");
+INSERT INTO `beacon`(id_group, name) VALUES(5, "Andersia");
+INSERT INTO `beacon`(id_group, name) VALUES(6, "Dworzec PKP - Avenida");
+
+---------------------------------------
+
+CREATE TABLE `group`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name 		VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci'
+);
+
+INSERT INTO `group`(name) VALUES("Urzêdy");
+INSERT INTO `group`(name) VALUES("Ogrody i parki");
+INSERT INTO `group`(name) VALUES("Koœcio³y");
+INSERT INTO `group`(name) VALUES("Galerie");
+INSERT INTO `group`(name) VALUES("Business");
+INSERT INTO `group`(name) VALUES("Transport");
+
+---------------------------------------------
+
+CREATE TABLE `numbers`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_beacon	INT NOT NULL,
+uuid 		VARCHAR(36) NOT NULL DEFAULT "B9407F30-F5F8-466E-AFF9-25556B57FE6D" COLLATE 'utf8_polish_ci',
+major 		SMALLINT(5) UNSIGNED NOT NULL,
+minor		SMALLINT(5) UNSIGNED NOT NULL
+);
+
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(1, 23441, 33349);
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(2, 1223, 22899);
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(3, 50030, 12123);
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(4, 43211, 9044);
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(5, 1555, 7123);
+INSERT INTO `numbers`(id_beacon, major, minor) VALUES(6, 63000, 16600);
+
+----------------------------------------------
+
+CREATE TABLE `loc`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_beacon	INT NOT NULL,
+name 		VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci'
+);
+
+INSERT INTO `loc`(id_beacon, name) VALUES(1, "Poznañ");
+INSERT INTO `loc`(id_beacon, name) VALUES(2, "Poznañ");
+INSERT INTO `loc`(id_beacon, name) VALUES(3, "Poznañ");
+INSERT INTO `loc`(id_beacon, name) VALUES(4, "Poznañ");
+INSERT INTO `loc`(id_beacon, name) VALUES(5, "Poznañ");
+INSERT INTO `loc`(id_beacon, name) VALUES(6, "Poznañ");
+
+BEGIN
+SET @i = 1;
+WHILE @i < 7 DO
+INSERT INTO `loc` (`id_beacon`, `name`) VALUES (@i, 'Poznañ');
+SET @i = @i + 1;
+END WHILE;
+END;
+
+DELIMITER $$
+CREATE PROCEDURE my_proc()
+BEGIN
+DECLARE @i INT DEFAULT 1;
+WHILE @i < 7 DO
+INSERT INTO `loc` (`id_beacon`, `name`) VALUES (@i, 'Poznañ');
+SET @i = @i + 1;
+END WHILE;
+END$$;
+DELIMITER ;
+CALL my_proc();
+
+----------------------------------
+
+CREATE TABLE `adr`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_beacon	INT NOT NULL,
+name 		VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci'
+);
+
+INSERT INTO `adr`(id_beacon, name) VALUES(1, "ul. Start Rynek 1");
+INSERT INTO `adr`(id_beacon, name) VALUES(2, "ul. Matejki 18");
+INSERT INTO `adr`(id_beacon, name) VALUES(3, "ul. Klasztorna 11");
+INSERT INTO `adr`(id_beacon, name) VALUES(4, "ul. Pó³wiejska 42");
+INSERT INTO `adr`(id_beacon, name) VALUES(5, "pl. Andersa");
+INSERT INTO `adr`(id_beacon, name) VALUES(6, "ul. Matyi 2");
+
+
+---------------------------------------------
+
+CREATE TABLE `user`(
+id 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+username	VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci',
+password	VARCHAR(20) NOT NULL COLLATE 'utf8_polish_ci',
+email		VARCHAR(50) NOT NULL COLLATE 'utf8_polish_ci',
+confirmation 	VARCHAR(20) NOT NULL COLLATE 'utf8_polish_ci',
+confirmed 	TINYINT(1) NOT NULL DEFAULT '1' COLLATE 'utf8_polish_ci',
+auth		CHAR(1) NOT NULL DEFAULT 'u' COLLATE 'utf8_polish_ci',
+pkt		INT NOT NULL DEFAULT 0
+);
+
+INSERT INTO `user`(username, password, email, confirmation, confirmed, auth)
+VALUES('admin', 'admin', 'none', 'nevermind', 1, 'a');
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('MarUsr', 'Qw12345678', 'none', 'nevermind', 1, 'u', 50);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('Ania19', 'Qw12345678', 'none', 'nevermind', 1, 'u', 100);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('mariobros', 'Qw12345678', 'none', 'nevermind', 1, 'u', 40);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('zaleckey', 'Qw12345678', 'none', 'nevermind', 1, 'u', 30);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('fafel_00', 'Qw12345678', 'none', 'nevermind', 1, 'u', 10);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('luisa', 'Qw12345678', 'none', 'nevermind', 1, 'u', 10);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('kubak¹s', 'Qw12345678', 'none', 'nevermind', 1, 'u', 10);
+INSERT INTO `user` (username, password, email, confirmation, confirmed, auth, pkt)
+VALUES ('JaRas', 'Qw12345678', 'none', 'nevermind', 1, 'u', 10);
+---------------------------------------------
+SELECT BEACON
+-------------
+SELECT b.id, 
+n.major, 
+n.minor, 
+b.name AS 'beaconname', 
+g.name AS 'groupname', 
+l.name AS 'locname', 
+a.name AS 'adrname'
+FROM beacon b 
+LEFT JOIN `group` g ON b.id_group = g.id 
+LEFT JOIN `numbers` n ON b.id = n.id_beacon 
+LEFT JOIN `loc` l ON b.id = l.id_beacon 
+LEFT JOIN `adr` a ON b.id = a.id_beacon;
+
+SELECT USER TOP 5
+-----------------
+SELECT username, 
+pkt 
+FROM user
+WHERE auth = 'u'
+ORDER BY pkt DESC
+LIMIT 0, 5
+
+REGISTER
+------------------
+$sql_reg = "INSERT INTO `user` (username, password, email, confirmation, confirmed, auth) VALUES (\"$login\", \"$pass\", \"$email\", \"$rand_str\", 0, \"$auth\")";
+

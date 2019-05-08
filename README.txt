@@ -1,4 +1,4 @@
-﻿PANEL ADMINISTRATORA
+﻿PANEL ADMINISTRATORA - wersja MySQL
 
 v. 1.0.  
 v. 2.0. - wersja z pierwszej obrony
@@ -7,6 +7,7 @@ v. 2.2. - kompatybilność z Chrome, rejestracja rozwijana dropdown
 v. 2.3. - komunikaty dot. błędnej lub udanej rejestracji / logowania
 v. 2.4. - wybór grupy beacona przy dodawaniu, poprawione komunikaty rejestracji
 v. 2.5. - walidacja i REGEX na user i beacon 
+v. 2.6. - wersja MySQL
 
 technologie:
 PHP

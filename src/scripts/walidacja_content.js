@@ -1,8 +1,14 @@
 	//interfejs
 
 	// formularz dodawanie
-	var _dodaj = document.getElementById("add_materialy_dodaj");
-
+	var _dodaj = document.getElementById("add_materialy_img");
+	var pMajor = document.getElementById("beacon_id").value;
+	var pMinor = document.getElementById("beacon_id_minor").value;
+	var pNazwa = document.getElementById("beacon_nazwa").value;
+	var pGrupa = document.getElementById("beacon_grupa").value;
+	var pLocation = document.getElementById("beacon_location").value;
+	var pAddress = document.getElementById("beacon_address").value;
+	
 	// formularz usuwanie
 	var _usun = document.getElementById("add_materialy_usun");
 	var _iksy = document.getElementsByClassName("iksUsun");
@@ -18,11 +24,12 @@
 	var _form_ob = document.getElementById("add_materialy_img");
 	_btn_ob.addEventListener('change', function(e){
 		var input = e.srcElement;
-		var att_action = _form_ob.getAttribute("action");
+		var att_action = document.createAttribute("action");
+		att_action.value = "send_img.php";
+		_form_ob.setAttributeNode(att_action);
 		filename = input.files[0].name;
 		if(filename != ''){
 			_lbl_ob.innerHTML = filename;
-			att_action.value = "send_img.php";
 			_form_ob.submit();
 		}
 		else
@@ -57,7 +64,7 @@
 		console.log("ValidateDodaj()");
 		for(var i=0; i<_arr.length; i++){
 			if(_arr[i].value == ''){
-				console.log("_arr[" + i + "].value = " + _arr[i].value);
+				//console.log("_arr[" + i + "].value = " + _arr[i].value);
 				_arr[i].style.border = "2px solid #900";
 				_arr[i].style.padding = "8px";
 				ready = false;
@@ -68,14 +75,15 @@
 			_bID.style.border = "2px solid #900";
 			_bID.style.padding = "8px";
 			_bID.style.color = "#900";
-			_bID.value = "tylko cyfry";
+			_bID.value = "liczba, max. 5 cyfr";
 			ready = false;
 		}
 		if(ValidateId(_bID_minor.value) != true){
 			console.log("ValidateId()");
 			_bID_minor.style.border = "2px solid #900";
 			_bID_minor.style.padding = "8px";
-			_bID_minor.value = "tylko cyfry";
+			_bID_minor.style.color = "#900";
+			_bID_minor.value = "liczba, max. 5 cyfr";
 			ready = false;
 		}
 		
@@ -89,6 +97,7 @@
 		
 		if(ready){
 			var att_action = document.createAttribute("action");
+
 			att_action.value = "add_beacon.php";
 			_dodaj.setAttributeNode(att_action);
 			_dodaj.submit();
@@ -116,6 +125,15 @@
 		}
 	}
 
+function zbierzInfoBeacon(){
+	pMajor = document.getElementById("beacon_id").value;
+	pMinor = document.getElementById("beacon_id_minor").value;
+	pNazwa = document.getElementById("beacon_nazwa").value;
+	pGrupa = document.getElementById("beacon_grupa").value;
+	pLocation = document.getElementById("beacon_location").value;
+	pAddress = document.getElementById("beacon_address").value;
+	
+}
 function ValidateId(id){
-	return (/^[0-9]+$/.test(id));
+	return (/(?=^.{0,5}$)[1-9]+[0-9]+$/.test(id));
 }

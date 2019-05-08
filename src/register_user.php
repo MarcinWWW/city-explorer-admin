@@ -1,6 +1,6 @@
 <?php
 	session_start();
 	
-	$auth = "user";
+	$auth = "u";
 	include('register.php');
 ?>

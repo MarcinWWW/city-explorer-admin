@@ -199,7 +199,7 @@ function resetForm(){
 	//divOtoczka[2].style.background = "transparent";
 	inRegLogin.style.border = "none";
 	inRegLogin.style.padding = "10px";
-	//inRegLogin.value = "";
+	inRegLogin.value = "";
 	inRegPass.style.border = "none";
 	inRegPass.style.padding = "10px";
 	inRegPass.value = "";
@@ -208,7 +208,7 @@ function resetForm(){
 	inRegPass2.value = "";
 	inRegEmail.style.border = "none";
 	inRegEmail.style.padding = "10px";	
-	//inRegEmail.value = "";
+	inRegEmail.value = "";
 	inCheckBox.checked = false;
 }
 function ValidateEmail(mail){
@@ -218,5 +218,5 @@ function ValidateLogin(login){
 	return (/(?=^.{1,20}$)/.test(login));
 }
 function ValidatePass(pass){
-	return (/(?=^.{8,20}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(pass));
+	return (/(?=^.{7,20}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(pass));
 }

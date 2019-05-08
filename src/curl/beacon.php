@@ -58,9 +58,9 @@
 	echo $top20;
 	echo "</pre><br><br>";
 	echo "print r top20:";
-	echo "<br><pre>";
+	echo "<br><div style=\"height:100px;width:100px;\"><pre>";
 	print_r($top20);
-	echo "</pre><br><br>";
+	echo "</pre></div><br><br>";
 	echo "beacon:";
 	echo "<br>";
 	echo $beacon;

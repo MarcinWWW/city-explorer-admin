@@ -1,31 +1,7 @@
 <?php
+session_set_cookie_params(300,"/");
 session_start();
-if(strpos($_SERVER[REQUEST_URI], "/?register=") > -1){
-	$tokenPos = strpos($_SERVER[REQUEST_URI], "/?register=") + 11;
-	$uri = $_SERVER[REQUEST_URI];
-	$token = substr($_SERVER[REQUEST_URI], $tokenPos, strlen($uri));
-}
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	// form validation
-	$login = $pass = $pass2 = $email = "";
-	if(!empty($_POST["inp_login"])){
-		$login = $_POST["inp_login"];
-	}
-	if(!empty($_POST["inp_email"])){
-		$pass = $_POST["inp_email"];
-	}
-}
-if($_SESSION['username'] != null && $_SESSION['username'] != "@nouser@"){
-	$login = $_SESSION['username'];
-	$beacon_id = $_POST['beacon_id'];
-	$beacon_id_minor = $_POST['beacon_id_minor'];
-	$beacon_nazwa = $_POST['beacon_nazwa'];
-	$beacon_grupa = $groupName;
-	$beacon_location = $_POST['beacon_grupa'];
-	$beacon_address = $_POST['beacon_address'];
-	include('admin.php');
-}
-include('beacon.php');
+include('header.php');
 ?>
 <html>
 <head>
@@ -37,6 +13,17 @@ include('beacon.php');
 	<script src="scripts\during_failed_login.js"></script>
 </head>
 <body>
+	<ul id="demo">
+		<li>
+			<div class="demo_li_1"></div>
+			<div class="demo_li_2">demo indywidualne<br>PHP / MySQL</div>
+		</li>
+		<li>
+			<div class="demo_li_1"></div>	
+			<div class="demo_li_2">projekt inżynierski<br>PHP / cURL / Json</div>	
+		</li>
+		<div class="demo_li_vertical"><p>wersja</p></div>
+	</ul>
 	<?php include('banner.php'); ?>
 	<article id="art">
 	<?php 	
@@ -76,8 +63,8 @@ include('beacon.php');
 					</div>
 					<div id="logowanie_wrap">
 						<form id="logowanie" method="post">
-							<input id="val_login" name="inp_login" type="text" value="<?php echo htmlspecialchars($login); ?>" placeholder="login">
-							<input id="val_pass" name="inp_pass" type="password" value="" placeholder="hasło">
+							<input id="val_login" name="inp_login" type="text" value="<?php echo htmlspecialchars($login); ?>" placeholder="login (demo: admin)">
+							<input id="val_pass" name="inp_pass" type="password" value="" placeholder="hasło (demo: admin)">
 							<div id="submit" name="log_submit">OK</div>
 							<p id="rejestracja">zarejestruj się</p>
 							<div id="logowanie_wrap_rejestracja">
@@ -133,8 +120,8 @@ include('beacon.php');
 					<img id="beacon-pic" alt="dodawanie i usuwanie beaconów" src="img/beacon-pic.png" width="100" height="100">
 					<p class="info">Należy zalogować się w roli <span>Administratora</span>, żeby móc dodawać lub usuwać beacony <br>City Explorer</p>
 					<form id="add_logowanie" action="pre_login_2.php" method="post">
-						<input id="inp_log1" name="inp_log1" type="text" placeholder="login">
-						<input id="inp_log2" name="inp_log2" type="password" placeholder="password">
+						<input id="inp_log1" name="inp_log1" type="text" placeholder="login (demo: admin)">
+						<input id="inp_log2" name="inp_log2" type="password" placeholder="hasło (demo: admin)">
 						<div id="submit2">OK</div>
 					</form>
 				</div>
@@ -151,8 +138,8 @@ include('beacon.php');
 					</form>
 				</div>
 				<div class="add_content">
-					<div class="add_kategoria">
-						<form id="add_materialy_img" enctype="multipart/form-data" action="send_img.php" method="post">
+					<form id="add_materialy_img" enctype="multipart/form-data" action="send_img.php" method="post">
+						<div class="add_kategoria">
 							<input type="hidden" name="MAX_FILE_SIZE" value="2480000">
 							<input type="file" name="obrazek" id="obrazek" class="wybierzObrazek">
 							<label id="labelObrazek" for="obrazek">
@@ -162,51 +149,45 @@ include('beacon.php');
 										echo "Wybierz obraz";
 								?></label>
 							<input type="submit" name="obrazekLocalSubmit" class="none" value="submit">
-						</form>
+						<!--</form>-->
 						<?php if($_FILES['obrazek']['name'] != ''){ 
-								$name = $_FILES['obrazek']['name'];
+								$name = $_SESSION['wybierz_obraz'];
 								echo "<img alt=\"$name\" src=\"img/up/$name\" >";
 								/*
-								echo "<br>lokalizacja = " . $lok;
-								echo "<br>filename = " . $filename;
-								echo "<br>filedata = " . $filedata;
-								echo "<br>filesize = " . $filesize;
-								echo "<br>filetype = " . $filetype;
+								//echo "<br>lokalizacja = " . $lok;
+								//echo "<br>filename = " . $filename;
+								//echo "<br>filedata = " . $filedata;
+								//echo "<br>filesize = " . $filesize;
+								//echo "<br>filetype = " . $filetype;
+								echo "<br>post = " . $post;
 								*/
+								//echo "<br>session send_img = " . $_SESSION['send_img'];
+								//echo "<br>session send_img_log = " . $_SESSION['send_img_log'];
+								//echo "<br>session wybierz_obraz = " . $_SESSION['wybierz_obraz'];			
 							}								
 						?>
-						<!--
-						<form id="add_materialy_akcja" action="" method="post">
-							<input id="akcja_name" type="text" name="akcja_name" placeholder="nazwa akcji">
-							<select id="akcja_select">
-								<option value="akcja 1">akcja 1</option>
-								<option value="akcja 2">akcja 2</option>
-								<option value="akcja 3">akcja 3</option>
-								<option value="akcja 4">akcja 4</option>
-							</select>
-						</form>
-						-->
-					</div>
-					<div class="add_materialy">
-						<form id="add_materialy_dodaj" method="post">
-							<input id="beacon_id" type="text" name="beacon_id" placeholder="ID major" value="<?php echo htmlspecialchars($beacon_id);?>">
-							<input id="beacon_id_minor" type="text" name="beacon_id_minor" placeholder="ID minor" value="<?php echo htmlspecialchars($beacon_id_minor);?>">
-							<input id="beacon_nazwa" type="text" name="beacon_nazwa" placeholder="nazwa" value="<?php echo htmlspecialchars($beacon_nazwa);?>">
-							<input id="beacon_grupa" list="grupy" type="text" name="beacon_grupa" placeholder="grupa beaconów" value="<?php echo htmlspecialchars($beacon_grupa);?>">
+						</div>
+						<div class="add_materialy">
+						<!--<form id="add_materialy_dodaj" action="" method="post">-->
+							<input id="beacon_id" type="text" name="beacon_id" placeholder="ID major" value="<?php echo htmlspecialchars($_SESSION['beacon_id']);?>">
+							<input id="beacon_id_minor" type="text" name="beacon_id_minor" placeholder="ID minor" value="<?php echo htmlspecialchars($_SESSION['beacon_id_minor']);?>">
+							<input id="beacon_nazwa" type="text" name="beacon_nazwa" placeholder="nazwa" value="<?php echo htmlspecialchars($_SESSION['beacon_nazwa']);?>">
+							<input id="beacon_grupa" list="grupy" type="text" name="beacon_grupa" placeholder="grupa beaconów" value="<?php echo htmlspecialchars($_SESSION['beacon_grupa']);?>">
 							<datalist id="grupy">
 							<?php
 								include("group.php");
 							?>
 							</datalist>
-							<input id="beacon_location" type="text" name="beacon_location" placeholder="lokalizacja" value="<?php echo htmlspecialchars($beacon_location);?>">
-							<input id="beacon_address" type="text" name="beacon_address" placeholder="adres" value="<?php echo htmlspecialchars($beacon_address);?>">
+							<input id="beacon_location" type="text" name="beacon_location" placeholder="lokalizacja" value="<?php echo htmlspecialchars($_SESSION['beacon_location']);?>">
+							<input id="beacon_address" type="text" name="beacon_address" placeholder="adres" value="<?php echo htmlspecialchars($_SESSION['beacon_address']);?>">
+							<input id="beacon_file" class="none" type="text" name="beacon_file" value="<?php echo htmlspecialchars($_SESSION['wybierz_obraz']);?>">
 							<!--<input id="beacon_coordinates" type="text" name="beacon_coordinates" placeholder="współrzędne">-->
-							<div id="submit_dodaj">DODAJ BEACON</div>
-						</form>
-						<form id="add_materialy_usun" action="delete.php" method="POST">
-							<input id="beacon_delete" class="none" type="text" name="beacon_delete" value="">
-						</form>
-					</div>
+							<div id="submit_dodaj">DODAJ BEACON</div>				
+						</div>
+					</form>
+					<form id="add_materialy_usun" action="delete.php" method="POST">
+						<input id="beacon_delete" class="none" type="text" name="beacon_delete" value="">
+					</form>
 				</div>
 				<?php
 					}
@@ -214,9 +195,21 @@ include('beacon.php');
 			</div>
 			<div id="places">
 				<?php 
+					include('conn.php');
+					//$sql = "SELECT b.ID, bl.Name, bl.Address, c.Latitude, c.Longitude FROM beacon b LEFT JOIN beaconlocation bl ON b.LocationID = bl.ID LEFT JOIN coordinate c ON bl.CoordinateID = c.ID";
+					$sql2 = "SELECT b.id, n.major, n.minor, b.name AS 'beaconname', g.name AS 'groupname', l.name AS 'locname', a.name AS 'adrname'
+							FROM beacon b LEFT JOIN `group` g ON b.id_group = g.id 
+							LEFT JOIN `numbers` n ON b.id = n.id_beacon 
+							LEFT JOIN `loc` l ON b.id = l.id_beacon 
+							LEFT JOIN `adr` a ON b.id = a.id_beacon";
+					$records = mysql_query($sql2);
+					
 					echo "<div class='cont'>";
+					#echo "kodowanie ".mb_detect_encoding("poznań");
 					echo "<div class='search'>";
 					echo "<p>standardowe UUID beaconów w City Explorer = <strong><i>B9407F30-F5F8-466E-AFF9-25556B57FE6D</i></strong></p>"; 
+					#echo "<input type='text' placeholder='szukaj miejsca z beaconami..'>" ;
+					#echo "<input class='sub' type='submit' value='szukaj'>";
 					echo "</div>";
 					echo "<div class='wpis'>";
 					echo "<div class='thead none'>ID</div>";
@@ -231,30 +224,41 @@ include('beacon.php');
 					echo "</div>";
 					$ogl = 0;
 					$key = 0;
-					foreach($_SESSION['beacon'] as $key => $value)
+					/*
+					echo "<div class='wpis'>";
+					echo "<div class='thead'>beacon</div>";
+					echo "<div class='thead'>miasto</div>";
+					echo "<div class='thead'>miejsce</div>";
+					echo "<div class='thead'>szerokość GPS</div>";
+					echo "<div class='thead'>długość GPS</div>";
+					echo "</div>";
+					*/
+					while($item=mysql_fetch_assoc($records))
 					{
-						$ogl = $key;
 						$klasa = "thead".$ogl%2;
 						$klasa2 = $klasa . " none";
 						$wpis = "wpis".$ogl%2;
 						
-						echo "<div class='".$wpis."'>";
-						echo "<div class='".$klasa2."'>".$_SESSION['beacon'][$key]['id']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['major']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['minor']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['type']['name']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['groups']['name']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['name']."</div>";
-						echo "<div class='".$klasa."'>".$_SESSION['beacon'][$key]['location']['address']."</div>";
-						if($_SESSION['admin'] == "@yes@")
-							echo "<div class='".$klasa." end'><img class='iksUsun' alt='usuń beacon' src='img/iks.png' width='25' height='25'></div>";						
-						echo "</div>";
+						echo "<a href='#'><div class='".$wpis."'>";
+						echo "<div class='".$klasa2. "'>".$item['id']."</div>";
+						echo "<div class='".$klasa."'>".$item['major']."</div>";
+						echo "<div class='".$klasa."'>".$item['minor']."</div>";
+						echo "<div class='".$klasa."'>".$item['beaconname']."</div>";
+						echo "<div class='".$klasa."'>".$item['groupname']."</div>";	
+						echo "<div class='".$klasa."'>".$item['locname']."</div>";
+						echo "<div class='".$klasa."'>".$item['adrname']."</div>";								
+						#echo "<div class='".$klasa."'>kodowanie ".mb_detect_encoding($item['miasto'])."</div>"; 
+						echo "</div></a>";
+						
+						$ogl++;
 					}
-					echo "</div>";				
+					echo "</div>";
 				?>
 			</div>
 			<div id="ranking">
 				<?php 
+					$sql_rank20 = "SELECT username, pkt FROM user WHERE auth = 'u' ORDER BY pkt DESC LIMIT 0, 20";
+					$rec_rank20 = mysql_query($sql_rank20);
 					echo "<div class='cont'>";
 					echo "<div class='wpis'>";
 					echo "<div class='thead'>pozycja</div>";
@@ -262,7 +266,7 @@ include('beacon.php');
 					echo "<div class='thead'>punktacja</div>";
 					echo "</div>";
 					$ogl = 1;
-					foreach($_SESSION['top20'] as $key => $value)
+					while($item2 = mysql_fetch_assoc($rec_rank20))
 					{
 						$ogl++;
 						$klasa = "thead".$ogl%2;
@@ -271,8 +275,8 @@ include('beacon.php');
 						
 						echo "<a href='#'><div class='".$wpis."'>";
 						echo "<div class='".$klasa."'>".($ogl-1)."</div>";
-						echo "<div class='".$klasa."'>".$key."</div>";
-						echo "<div class='".$klasa."'>".$value."</div>";					
+						echo "<div class='".$klasa."'>".$item2['username']."</div>";
+						echo "<div class='".$klasa."'>".$item2['pkt']."</div>";					
 			
 						echo "</div></a>";
 					}
@@ -284,22 +288,22 @@ include('beacon.php');
 			<div class="podzial">
 				<p class="footer_opis">Projekt inżynierski 2019</p>			
 				<ul>
-					<li>&nbsp;</li>
-					<li>Ewa Chojnacka</li>
-					<li>Daniel Gruchociak</li>
-					<li>Marcin Macias</li>
+					<li>Panel administratora gry miejskiej z urządzeniami iBeacon służący do dodawania oraz usuwania iBeaconów w grze.</li>
+					<li>Wersja indywidualna (demo) PHP + MySQL</li>
 					<li>Marcin Jadwiszczak</li>
 				</ul>		
 			</div>
 			<div class="podzial">
 				<p class="footer_opis">5 najlepszych graczy</p>
 				<?php
+					$sql_rank5 = "SELECT username, pkt FROM user WHERE auth = 'u' ORDER BY pkt DESC LIMIT 0, 5";
+					$rec_rank5 = mysql_query($sql_rank5);
 					echo "<ul>";
-						foreach($_SESSION['top5'] as $key => $value)
-						{
-							echo "<li>".$key."<span>".$value."</span></li>";				
-						}
+					while($item3 = mysql_fetch_assoc($rec_rank5)){
+						echo "<li>".$item3['username']."<span>".$item3['pkt']."</span></li>";
+					}
 					echo "</ul>";
+					mysql_close($conn);	
 				?>				
 			</div>
 			<div class="podzial ostatni">
@@ -309,7 +313,7 @@ include('beacon.php');
 					<li id="footer_rejestracja"><a href="#">Rejestracja</a></li>
 					<li id="footer_regulamin"><a href="#">Regulamin</a></li>
 					<li id="footer_miejsca"><a href="#">Miejsca z beaconami</a></li>
-					<li><a href="mailto:helpdesk.cityexplorer@gmail.com">Kontakt</a></li>
+					<li><a href="mailto:helpdesk.cityexplorer@gmail.com">Kontakt</a></li> <!-- ToDo: podstawić formularz -->
 				</ul>	
 			</div>
 		</footer>
@@ -321,6 +325,12 @@ include('beacon.php');
 	<?php if(isset($_SESSION['username']) && $_SESSION['username'] != "@nouser@" && $_SESSION['admin'] == "@yes@" ){ ?>
 		<script src="scripts\walidacja_content.js"></script>	
 	<?php } //else echo "USERNAME = " . $_SESSION['username'];?>
+	<?php 		
+		if($_SESSION['wersja']==null){
+			echo "<script>showdemo(-180, 10, 12); setTimeout(function(){hidedemo(0,10,12);}, 10000);</script>";
+			$_SESSION['wersja'] = 1;
+		}
+	?>
 	<?php
 		if(($_SESSION['username'] == "@nouser@" && $_SESSION['loginsuccess'] == "@no@") || $token == "success" || strlen($_SESSION['register']) > 2 ){ 
 			echo "<script>hide_log(3000,4000,'1s');</script>";
